@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/simulator', function(req, res, next) {
-  res.render('simulator', { ancho: 20,alto:20 });
+  res.render('simulator', { ancho: 10,alto:10 });
 });
 
 
