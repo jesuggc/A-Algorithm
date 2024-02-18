@@ -15,7 +15,7 @@
         <% for (let i = 0; i < alto; i++) { %>
           <div class="row justify-content-center ">
             <% for (let j = 0; j < ancho; j++) { %>
-              <div class="col cuadrado " id="<%=i%>,<%=j%>" ></div>
+              <div class="col cuadrado " id="<%=i%>,<%=j%>" ><p style="font-size: 10px;"></p></div>
             <% } %>
           </div>
         <% } %>
@@ -31,8 +31,8 @@
           <h1>Información del paso actual</h1>
           
           <div id="divInfo">
-            <p id="informacion">\(f(x)=\sqrt{(a - b)^2 + (c - d)^2}\)</p>
-              <p>La raíz cuadrada de \( x \) es: \( \sqrt{x} \)</p>
+            <!-- <p id="informacion">\(f(x)=\sqrt{(a - b)^2 + (c - d)^2}\)</p> -->
+              <!-- <p>La raíz cuadrada de \( x \) es: \( \sqrt{x} \)</p> -->
           </div>
         </div>
         <div class="row h-25">
@@ -40,6 +40,12 @@
           <button id="empezar" type="button" class="btn btn-primary">Siguiente</button>
         </div>
       </div>
+    </div>
+    <div id="dev">
+      <h1 id="devPaso"> </h1>
+      <h3 id="devAbierta"> </h3>
+      <h3 id="devCerrada"> </h3>
+
     </div>
   </body>
   <script src="/javascripts/dragdrop.js">
