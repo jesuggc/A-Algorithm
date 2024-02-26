@@ -9,87 +9,69 @@ $("#fin").on("dragstart", function(event) {
   drageado = "fin"
 });
 
+function gestionarClick(tipo) {
+  if (seleccionado === tipo) {
+    seleccionado = null;
+    $(`#${tipo}`).removeClass("cuadradoSeleccionado").addClass("cuadradoDrag");
+  } else {
+    seleccionado = tipo;
+    $(`#${tipo}`).removeClass("cuadradoDrag").addClass("cuadradoSeleccionado");
+    $("#inicio, #prohibido, #fin").not(`#${tipo}`).removeClass("cuadradoSeleccionado").addClass("cuadradoDrag");
+  }
+}
 
 $("#inicio").on("click", function(event) {
-  if(seleccionado === "inicio") {
-    seleccionado = null
-    $(this).removeClass("cuadradoSeleccionado").addClass("cuadradoDrag")
-  } else {
-    seleccionado = "inicio"
-    $(this).removeClass("cuadradoDrag").addClass("cuadradoSeleccionado")
-    $("#prohibido").removeClass("cuadradoSeleccionado").addClass("cuadradoDrag")
-    $("#fin").removeClass("cuadradoSeleccionado").addClass("cuadradoDrag")
-  }
+  gestionarClick("inicio");
 });
+
 $("#prohibido").on("click", function(event) {
-  if(seleccionado === "prohibido") {
-    seleccionado = null
-    $(this).removeClass("cuadradoSeleccionado").addClass("cuadradoDrag")
-  } else {
-    seleccionado = "prohibido"
-    $(this).removeClass("cuadradoDrag").addClass("cuadradoSeleccionado")
-    $("#inicio").removeClass("cuadradoSeleccionado").addClass("cuadradoDrag")
-    $("#fin").removeClass("cuadradoSeleccionado").addClass("cuadradoDrag")
-  }
+  gestionarClick("prohibido");
 });
+
 $("#fin").on("click", function(event) {
-  if(seleccionado === "fin") {
-    seleccionado = null
-    $(this).removeClass("cuadradoSeleccionado").addClass("cuadradoDrag")
-  } else {
-    seleccionado = "fin"
-    $(this).removeClass("cuadradoDrag").addClass("cuadradoSeleccionado")
-    $("#inicio").removeClass("cuadradoSeleccionado").addClass("cuadradoDrag")
-    $("#prohibido").removeClass("cuadradoSeleccionado").addClass("cuadradoDrag")
-  }
+  gestionarClick("fin");
 });
+
 
 $(".cuadrado").on("dragover", function() {
   event.preventDefault();
 })
-$(".cuadrado").on("drop", function() {
-  event.preventDefault();
-  if(drageado === "inicio") {
-    $(this).addClass("inicio")
-    inicio.x= parseInt($(this).attr('id').split(',')[0])
-    inicio.y= parseInt($(this).attr('id').split(',')[1])
-    actual = inicio
-  } else if (drageado === "prohibido") {
-    $(this).addClass("prohibido")
-  } else if(drageado === "fin") {
-    $(this).addClass("fin")
-    final.x= parseInt($(this).attr('id').split(',')[0])
-    final.y= parseInt($(this).attr('id').split(',')[1])
+
+function agregarInicioOFin(casilla, posicion) {
+  casilla.addClass(posicion).removeClass("prohibido");
+  if (posicion === "inicio") {
+    inicio = { x: parseInt(casilla.attr('id').split(',')[0]), y: parseInt(casilla.attr('id').split(',')[1]) };
+    actual = inicio;
+    abierta.push(inicio);
+  } else if (posicion === "fin") {
+    final = { x: parseInt(casilla.attr('id').split(',')[0]), y: parseInt(casilla.attr('id').split(',')[1]) };
   }
-  drageado = null
-})
+}
+
+$(".cuadrado").on("drop", function(event) {
+  event.preventDefault();
+  if (drageado === "inicio" || drageado === "fin") agregarInicioOFin($(this), drageado);
+  else if (drageado === "prohibido") $(this).addClass("prohibido");
+  drageado = null;
+});
 
 $(".cuadrado").on("click", function() {
-  if(seleccionado === "inicio") {
-    $(this).addClass("inicio")
-    inicio.x= parseInt($(this).attr('id').split(',')[0])
-    inicio.y= parseInt($(this).attr('id').split(',')[1])
-    actual = inicio
-  } else if (seleccionado === "prohibido") {
-    $(this).addClass("prohibido")
-  } else if(seleccionado === "fin") {
-    $(this).addClass("fin")
-    final.x= parseInt($(this).attr('id').split(',')[0])
-    final.y= parseInt($(this).attr('id').split(',')[1])
-  }
-})
+  if (seleccionado === "inicio" || seleccionado === "fin") agregarInicioOFin($(this), seleccionado);
+  else if (seleccionado === "prohibido") $(this).addClass("prohibido");
+});
 
 let drageado = null 
 let seleccionado = null 
 let inicio = {x:0, y:0} 
 let final = {x:0, y:0}  
 let actual = null
+let fallo = false
 let abierta = []
 let cerrada = []
 let alto = parseInt($("#mainRow").attr("data-id").split(",")[0])
 let ancho = parseInt($("#mainRow").attr("data-id").split(",")[1])
 
-function encontrarCercanos(alto,ancho,x,y) {
+function encontrarCercanos(x,y) {
   let lista = []
   for(let i = x-1; i <= x+1; i++) {
       for(let j = y-1; j <= y+1; j++) {
@@ -99,11 +81,14 @@ function encontrarCercanos(alto,ancho,x,y) {
   return lista
 }
 
-function encontrarValidos(lista) {
+function encontrarValidos(actual, lista) {
   let nuevaLista=[]
   lista.forEach(ele => {
     let casilla = $("#"+ele.x+"\\,"+ele.y)
-    if(!casilla.hasClass("prohibido") && !casilla.hasClass("recorrido")) nuevaLista.push(ele)
+    if(!casilla.hasClass("prohibido") && !casilla.hasClass("recorrido")) {
+      ele.padre = {x: actual.x, y: actual.y}
+      nuevaLista.push(ele)
+    }
   })
   return nuevaLista;
 }
@@ -124,7 +109,7 @@ function calcularTotal(x,y) {
   return calcularReal(x,y) + calcularImaginaria(x,y)
 }
 
-function posicionDelMinimo(lista) {
+function posMinimo(lista) {
   let minimo = lista[0].total
   let pos = 0
   lista.forEach((ele,indice) => {
@@ -136,16 +121,16 @@ function posicionDelMinimo(lista) {
   return pos
 }
 
-function mostrarInfo(opciones,minimo) {
-  $("#informacion").empty();
-  opciones.forEach(ele => {
-    let expression = "\\sqrt{x}";
-    $("#informacion").append("<p>La raíz cuadrada de " + expression + " es: \( " + expression + " \)</p>");
-  });
+// function mostrarInfo(opciones,minimo) {
+//   $("#informacion").empty();
+//   opciones.forEach(ele => {
+//     let expression = "\\sqrt{x}";
+//     $("#informacion").append("<p>La raíz cuadrada de " + expression + " es: \( " + expression + " \)</p>");
+//   });
   
-  // Renderizar expresiones LaTeX después de agregarlas al DOM
-  MathJax.typeset(["#informacion"]);
-}
+//   // Renderizar expresiones LaTeX después de agregarlas al DOM
+//   MathJax.typeset(["#informacion"]);
+// }
 
 
 function imprimeLista(lista){
@@ -156,51 +141,50 @@ function imprimeLista(lista){
   return finalString
 }
 
-function elementoEnLista(elemento,lista) {
-  lista.forEach(ele => {
-    if(ele.x === elemento.x && ele.y === elemento.y) return true
-  })
-  return false
+function generarRecorrido() {
+  // Generar recorrido
 }
 
 function core() {
-  let cercanos = encontrarCercanos(alto,ancho,actual.x,actual.y)
-  let validos = encontrarValidos(cercanos)
-  validos.forEach(ele => {
-    if(!elementoEnLista(ele,abierta) && !elementoEnLista(ele,cerrada)) {
-      ele.total = calcularTotal(ele.x,ele.y)
-      abierta.push(ele)
-      let casilla = $("#"+ele.x+"\\,"+ele.y)
-      if( !casilla.hasClass("prohibido") && !casilla.hasClass("inicio") && !casilla.hasClass("fin") && !casilla.hasClass("recorrido"))
-        casilla.addClass("abierta")
+  if(abierta.length === 0) fallo = true
+  else {
+    let posMin = posMinimo(abierta)
+    let minimo = abierta[posMin]
+    cerrada.push(minimo)
+    let casilla = $("#"+minimo.x+"\\,"+minimo.y)
+    if(!casilla.hasClass("fin")) casilla.addClass("recorrido").removeClass("abierta")
+    actual = minimo
+    abierta.splice(posMin,1)
+    $("#devAbierta").empty().append("Lista abierta: "+ imprimeLista(abierta))
+    $("#devCerrada").empty().append("Lista cerrada: "+ imprimeLista(cerrada))
+
+    if((actual.x === final.x && actual.y === final.y)) generarRecorrido()
+    else {
+      let cercanos = encontrarCercanos(actual.x,actual.y)
+      let validos = encontrarValidos(actual,cercanos)
+      validos.forEach(ele => {
+        let existe = abierta.findIndex(elemento => elemento.x === ele.x && elemento.y === ele.y)
+        ele.total = calcularTotal(ele.x,ele.y)
+        if(existe === -1) {
+          abierta.push(ele)
+          let casilla = $("#"+ele.x+"\\,"+ele.y)
+          if( !casilla.hasClass("prohibido") && !casilla.hasClass("inicio") && !casilla.hasClass("fin") && !casilla.hasClass("recorrido")) casilla.addClass("abierta")
+        } else if (ele.total < abierta[existe].total) {
+          abierta[existe].total = ele.total
+          abierta[existe].padre = {x:actual.x,y:actual.y}
+        }
+      })
     }
-  })
-  let posMinimo = posicionDelMinimo(abierta)
-  let minimo = abierta[posMinimo]
-  cerrada.push(minimo)
-  let casilla = $("#"+minimo.x+"\\,"+minimo.y)
-  if(!casilla.hasClass("fin")) casilla.addClass("recorrido").removeClass("abierta")
-  actual = minimo
-  
-  $("#devAbierta").empty()
-  $("#devAbierta").append("Lista abierta: "+ imprimeLista(abierta))
-  $("#devCerrada").empty()
-  $("#devCerrada").append("Lista cerrada: "+ imprimeLista(cerrada))
-
-  mostrarInfo(validos,minimo)
-  // console.log(validos,minimo)
-  abierta.splice(posMinimo,1)
-
-
+  }
 }
 let paso = 1
 $("#empezar").on("click", function(){
-  if((actual.x !== final.x || actual.y !== final.y)) {
-    $("#devPaso").empty()
-    $("#devPaso").append("Paso: ", paso++)
+  if(fallo === true) {
+    console.log("fallo")
+  } else if (actual.x !== final.x || actual.y !== final.y) {
+    $("#devPaso").empty().append("Paso: ", paso++)
     core()
-  }
-  else {
+  } else {
     //bloquear boton
     //dar feedback
   }
@@ -214,5 +198,7 @@ $("#limpiar").on("click", function(){
   final = null
   actual = null
   drageado= null
-  
+  seleccionado = null
+  paso = 1
+  fallo = false
 })

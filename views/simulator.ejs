@@ -15,7 +15,7 @@
         <% for (let i = 0; i < alto; i++) { %>
           <div class="row justify-content-center ">
             <% for (let j = 0; j < ancho; j++) { %>
-              <div class="col cuadrado " id="<%=i%>,<%=j%>" ><p style="font-size: 10px;"></p></div>
+              <div class="col cuadrado " id="<%=i%>,<%=j%>" ><p style="font-size: 10px;"><%=i%>,<%=j%></p></div>
             <% } %>
           </div>
         <% } %>
@@ -45,6 +45,7 @@
       <h1 id="devPaso"> </h1>
       <h3 id="devAbierta"> </h3>
       <h3 id="devCerrada"> </h3>
+      <h3 id="devPrueba"> </h3>
 
     </div>
   </body>
