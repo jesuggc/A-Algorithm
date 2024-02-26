@@ -13,11 +13,15 @@
 .cuadradoSeleccionado {
   max-width:  50px;
   height:     50px;
-  border: 1px solid wheat;
+  border: 1px solid white;
 }
 
 .prohibido { 
   background-color: black;
+}
+
+.borrar { 
+  background-color: white;
 }
 
 .inicio {

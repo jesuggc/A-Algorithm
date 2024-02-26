@@ -4,18 +4,22 @@ $("#prohibido").on("dragstart", () => drageado = "prohibido")
 $("#prohibido").on("click", () => gestionarClick("prohibido"));
 $("#fin").on("dragstart", () => drageado = "fin")
 $("#fin").on("click", () => gestionarClick("fin"));
+$("#borrar").on("dragstart", () => drageado = "borrar")
+$("#borrar").on("click", () => gestionarClick("borrar"));
 
 $(".cuadrado").on("dragover", (event) => event.preventDefault())
 
 $(".cuadrado").on("drop", function() {
   if (drageado === "inicio" || drageado === "fin") agregarInicioOFin($(this), drageado);
-  else if (drageado === "prohibido") $(this).addClass("prohibido");
+  else if (drageado === "prohibido") $(this).addClass("prohibido").removeClass("inicio fin");
+  else if (drageado === "borrar") $(this).removeClass("inicio prohibido fin")
   drageado = null;
 });
 
 $(".cuadrado").on("click", function() {
   if (seleccionado === "inicio" || seleccionado === "fin") agregarInicioOFin($(this), seleccionado);
-  else if (seleccionado === "prohibido") $(this).addClass("prohibido");
+  else if (seleccionado === "prohibido") $(this).addClass("prohibido").removeClass("inicio fin");
+  else if (seleccionado === "borrar") $(this).removeClass("inicio prohibido fin")
 });
 
 function gestionarClick(tipo) {
@@ -30,7 +34,7 @@ function gestionarClick(tipo) {
 }
 
 function agregarInicioOFin(casilla, posicion) {
-  casilla.addClass(posicion).removeClass("prohibido");
+  casilla.removeClass("inicio fin prohibido").addClass(posicion);
   if (posicion === "inicio") {
     inicio = { x: parseInt(casilla.attr('id').split(',')[0]), y: parseInt(casilla.attr('id').split(',')[1]) };
     actual = inicio;
@@ -111,19 +115,16 @@ function posMinimo(lista) {
 //     let expression = "\\sqrt{x}";
 //     $("#informacion").append("<p>La raíz cuadrada de " + expression + " es: \( " + expression + " \)</p>");
 //   });
-  
 //   // Renderizar expresiones LaTeX después de agregarlas al DOM
 //   MathJax.typeset(["#informacion"]);
 // }
-
-
-function imprimeLista(lista){
-  let finalString = ""
-  lista.forEach(ele => {
-    finalString += "(" + ele.x + "," + ele.y + ")"
-  })
-  return finalString
-}
+// function imprimeLista(lista){
+//   let finalString = ""
+//   lista.forEach(ele => {
+//     finalString += "(" + ele.x + "," + ele.y + ")"
+//   })
+//   return finalString
+// }
 
 function generarRecorrido() {
   let nodo = cerrada[cerrada.length-1]
@@ -157,12 +158,12 @@ function pintarAbierta(nodo) {
 
 function pintarCerrada(nodo) {
   let casilla = $("#"+nodo.x+"\\,"+nodo.y)
-  if(!casilla.hasClass("fin")) casilla.addClass("recorrido").removeClass("abierta")
+  if(!casilla.hasClass("fin") && !casilla.hasClass("inicio")) casilla.addClass("recorrido").removeClass("abierta")
 }
 
 function pintarFinal(nodo) {
   let casilla = $("#"+nodo.x+"\\,"+nodo.y)
-  casilla.addClass("final").removeClass("abierta cerrada recorrido")
+  if(!casilla.hasClass("fin") && !casilla.hasClass("inicio")) casilla.addClass("final").removeClass("abierta cerrada recorrido")
 }
 
 function core() {
@@ -190,23 +191,28 @@ function core() {
   return {fallo:null,lista:null}
 }
 
-$("#empezar").on("click", function(){
-  if(fallo === true) {
-    console.log("fallo")
-  } else if (actual.x !== final.x || actual.y !== final.y) {
-    $("#devPaso").empty().append("Paso: ", (paso)++)
+function gestionarError() {
+  $("#devPrueba").append("Camino sin salida")
+  $("#empezar").prop("disabled", true);
+}
+
+function gestionarPaso() {
+  $("#devPaso").empty().append("Paso: ", (paso)++)
     let feedback = core()
     fallo = feedback.fallo
     sol = feedback.lista
-  } else {
-    if(pasoFinal < paso) pintarFinal(sol[pasoFinal++])
-    //bloquear boton
-    //dar feedback
-  }
+}
+
+
+$("#empezar").on("click", function(){
+  if(fallo === true) gestionarError()
+  else if (actual.x !== final.x || actual.y !== final.y) gestionarPaso()
+  else if(pasoFinal < paso) pintarFinal(sol[pasoFinal++])
+  else $("#empezar").prop("disabled", true);
 })
 
 $("#limpiar").on("click", function(){
-  $(".cuadrado").removeClass(["prohibido","inicio","fin","recorrido","abierta"])
+  $(".cuadrado").removeClass(["prohibido","inicio","fin","recorrido","abierta","final"])
   abierta = []
   cerrada = []
   sol = []
@@ -218,4 +224,5 @@ $("#limpiar").on("click", function(){
   paso = 0
   pasoFinal = 0
   fallo = false
+  $("#empezar").prop("disabled", false);
 })
