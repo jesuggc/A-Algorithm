@@ -1,12 +1,21 @@
+$("#inicio").on("dragstart", () => drageado = "inicio")
+$("#inicio").on("click", () => gestionarClick("inicio"));
+$("#prohibido").on("dragstart", () => drageado = "prohibido")
+$("#prohibido").on("click", () => gestionarClick("prohibido"));
+$("#fin").on("dragstart", () => drageado = "fin")
+$("#fin").on("click", () => gestionarClick("fin"));
 
-$("#inicio").on("dragstart", function(event) {
-  drageado = "inicio"
+$(".cuadrado").on("dragover", (event) => event.preventDefault())
+
+$(".cuadrado").on("drop", function() {
+  if (drageado === "inicio" || drageado === "fin") agregarInicioOFin($(this), drageado);
+  else if (drageado === "prohibido") $(this).addClass("prohibido");
+  drageado = null;
 });
-$("#prohibido").on("dragstart", function(event) {
-  drageado = "prohibido"
-});
-$("#fin").on("dragstart", function(event) {
-  drageado = "fin"
+
+$(".cuadrado").on("click", function() {
+  if (seleccionado === "inicio" || seleccionado === "fin") agregarInicioOFin($(this), seleccionado);
+  else if (seleccionado === "prohibido") $(this).addClass("prohibido");
 });
 
 function gestionarClick(tipo) {
@@ -20,23 +29,6 @@ function gestionarClick(tipo) {
   }
 }
 
-$("#inicio").on("click", function(event) {
-  gestionarClick("inicio");
-});
-
-$("#prohibido").on("click", function(event) {
-  gestionarClick("prohibido");
-});
-
-$("#fin").on("click", function(event) {
-  gestionarClick("fin");
-});
-
-
-$(".cuadrado").on("dragover", function() {
-  event.preventDefault();
-})
-
 function agregarInicioOFin(casilla, posicion) {
   casilla.addClass(posicion).removeClass("prohibido");
   if (posicion === "inicio") {
@@ -48,26 +40,17 @@ function agregarInicioOFin(casilla, posicion) {
   }
 }
 
-$(".cuadrado").on("drop", function(event) {
-  event.preventDefault();
-  if (drageado === "inicio" || drageado === "fin") agregarInicioOFin($(this), drageado);
-  else if (drageado === "prohibido") $(this).addClass("prohibido");
-  drageado = null;
-});
-
-$(".cuadrado").on("click", function() {
-  if (seleccionado === "inicio" || seleccionado === "fin") agregarInicioOFin($(this), seleccionado);
-  else if (seleccionado === "prohibido") $(this).addClass("prohibido");
-});
-
 let drageado = null 
 let seleccionado = null 
 let inicio = {x:0, y:0} 
 let final = {x:0, y:0}  
 let actual = null
 let fallo = false
+let paso =  0
+let pasoFinal = 0
 let abierta = []
 let cerrada = []
+let sol = []
 let alto = parseInt($("#mainRow").attr("data-id").split(",")[0])
 let ancho = parseInt($("#mainRow").attr("data-id").split(",")[1])
 
@@ -81,7 +64,8 @@ function encontrarCercanos(x,y) {
   return lista
 }
 
-function encontrarValidos(actual, lista) {
+function expandirSucesores(actual) {
+  let lista = encontrarCercanos(actual.x, actual.y)
   let nuevaLista=[]
   lista.forEach(ele => {
     let casilla = $("#"+ele.x+"\\,"+ele.y)
@@ -142,49 +126,80 @@ function imprimeLista(lista){
 }
 
 function generarRecorrido() {
-  // Generar recorrido
+  let nodo = cerrada[cerrada.length-1]
+  let resultado = [nodo]
+  while(nodo.padre) {
+    nodo = cerrada.find(ele => ele.x === nodo.padre.x && ele.y === nodo.padre.y)
+    resultado.push(nodo)
+  }
+  return resultado
+}
+
+function eliminarAbierta() {
+  let posMin = posMinimo(abierta)
+  let minimo = abierta[posMin]
+  actual = minimo
+  abierta.splice(posMin,1)
+}
+
+function actualizarNodo(nodo, nuevo) {
+  nodo.total = nuevo.total
+  nodo.padre = {x:actual.x,y:actual.y}
+}
+
+// $("#devAbierta").empty().append("Lista abierta: "+ imprimeLista(abierta))
+// $("#devCerrada").empty().append("Lista cerrada: "+ imprimeLista(cerrada))
+
+function pintarAbierta(nodo) {
+  let casilla = $("#"+nodo.x+"\\,"+nodo.y)
+  if(!casilla.hasClass("prohibido") && !casilla.hasClass("inicio") && !casilla.hasClass("fin") && !casilla.hasClass("recorrido")) casilla.addClass("abierta")
+}
+
+function pintarCerrada(nodo) {
+  let casilla = $("#"+nodo.x+"\\,"+nodo.y)
+  if(!casilla.hasClass("fin")) casilla.addClass("recorrido").removeClass("abierta")
+}
+
+function pintarFinal(nodo) {
+  let casilla = $("#"+nodo.x+"\\,"+nodo.y)
+  casilla.addClass("final").removeClass("abierta cerrada recorrido")
 }
 
 function core() {
-  if(abierta.length === 0) fallo = true
-  else {
-    let posMin = posMinimo(abierta)
-    let minimo = abierta[posMin]
-    cerrada.push(minimo)
-    let casilla = $("#"+minimo.x+"\\,"+minimo.y)
-    if(!casilla.hasClass("fin")) casilla.addClass("recorrido").removeClass("abierta")
-    actual = minimo
-    abierta.splice(posMin,1)
-    $("#devAbierta").empty().append("Lista abierta: "+ imprimeLista(abierta))
-    $("#devCerrada").empty().append("Lista cerrada: "+ imprimeLista(cerrada))
+  if(abierta.length === 0) return {fallo:true} // Si ABIERTA esta vacía, terminar con fallo
 
-    if((actual.x === final.x && actual.y === final.y)) generarRecorrido()
-    else {
-      let cercanos = encontrarCercanos(actual.x,actual.y)
-      let validos = encontrarValidos(actual,cercanos)
-      validos.forEach(ele => {
-        let existe = abierta.findIndex(elemento => elemento.x === ele.x && elemento.y === ele.y)
-        ele.total = calcularTotal(ele.x,ele.y)
-        if(existe === -1) {
-          abierta.push(ele)
-          let casilla = $("#"+ele.x+"\\,"+ele.y)
-          if( !casilla.hasClass("prohibido") && !casilla.hasClass("inicio") && !casilla.hasClass("fin") && !casilla.hasClass("recorrido")) casilla.addClass("abierta")
-        } else if (ele.total < abierta[existe].total) {
-          abierta[existe].total = ele.total
-          abierta[existe].padre = {x:actual.x,y:actual.y}
-        }
-      })
-    }
-  }
+  // Eliminar el nodo de abierta que tenga un valor mínimo de f, e introducirlo en CERRADA
+  eliminarAbierta()
+  cerrada.push(actual)
+  pintarCerrada(actual)
+  
+  if((actual.x === final.x && actual.y === final.y)) return {fallo: false, lista: generarRecorrido()} // Si el nodo actual es meta, devolver el camino solucion
+ 
+  let sucesores = expandirSucesores(actual)  // Sino, expandir sus sucesores
+  
+  sucesores.forEach(ele => { // Por cada sucesor: crear un puntero a su padre
+    let existe = abierta.findIndex(elemento => elemento.x === ele.x && elemento.y === ele.y)
+    ele.total = calcularTotal(ele.x,ele.y) // Calcular f
+
+    if(existe === -1) abierta.push(ele)
+    else if (ele.total < abierta[existe].total) actualizarNodo(abierta[existe], ele) // Comprobar si estaba en abierta y actualizar nodo si g es menor  
+    
+    pintarAbierta(ele)
+  })
+
+  return {fallo:null,lista:null}
 }
-let paso = 1
+
 $("#empezar").on("click", function(){
   if(fallo === true) {
     console.log("fallo")
   } else if (actual.x !== final.x || actual.y !== final.y) {
-    $("#devPaso").empty().append("Paso: ", paso++)
-    core()
+    $("#devPaso").empty().append("Paso: ", (paso)++)
+    let feedback = core()
+    fallo = feedback.fallo
+    sol = feedback.lista
   } else {
+    if(pasoFinal < paso) pintarFinal(sol[pasoFinal++])
     //bloquear boton
     //dar feedback
   }
@@ -194,11 +209,13 @@ $("#limpiar").on("click", function(){
   $(".cuadrado").removeClass(["prohibido","inicio","fin","recorrido","abierta"])
   abierta = []
   cerrada = []
+  sol = []
   inicio = null
   final = null
   actual = null
   drageado= null
   seleccionado = null
-  paso = 1
+  paso = 0
+  pasoFinal = 0
   fallo = false
 })

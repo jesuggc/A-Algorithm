@@ -16,7 +16,7 @@
   border: 1px solid wheat;
 }
 
-.prohibido {
+.prohibido { 
   background-color: black;
 }
 
@@ -29,9 +29,13 @@
 }
 
 .recorrido {
-  background-color: blue;
+  background-color: lightblue;
 }
 
 .abierta {
   background-color: orange;
+}
+
+.final {
+  background-color: purple;
 }
