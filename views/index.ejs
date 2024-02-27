@@ -9,26 +9,47 @@
   </head>
   <body>
     <div class="bg-info">
-      <h1>Elige el tamaño de la cuadricula</h1>
-      <input id="ancho" min="3" max="20" type="range" step="1"/>
-      <input id="alto" min="3" max="20" type="range" step="1"/>
-      <h1>Ancho</h1>
-      <h1 id="textoancho"></h1>
-      <h1>Alto</h1>
-      <h1 id="textoalto"></h1>
+      <form method="POST" action="/simulator">
+        <h1>Elige el tamaño de la cuadricula</h1>
+        <input id="ancho" min="3" max="20" type="range" step="1" name="ancho"/>
+        <input id="alto" min="3" max="20" type="range" step="1" name="alto"/>
+        <h1 id="textoancho"></h1>
+        <h1 id="textoalto"></h1>
+        <input id="inner" type="hidden" name="inner">
+        <input id="enviar" type="submit" value="Enviar"/>
+      </form>
     </div>
   </body>
   <script>
     
+    $("#inner").val(window.innerHeight)
     $("#alto").on("input", function(){
-      $("#textoalto").text("")
-      $("#textoalto").append($("#alto").val())
+      $("#textoalto").empty().append("Alto: " + $("#alto").val())
     })
 
     $("#ancho").on("input", function(){
-      $("#textoancho").text("")
-      $("#textoancho").append($("#ancho").val())
+      $("#textoancho").empty().append("Ancho: " + $("#ancho").val())
     })
 
+    $("#ancho").data("id", window.innerHeight);
+    $("#alto").data("id", window.outerHeight);
+    $("#enviar").on("click", function() {
+      let datos = {
+        ancho: $("#ancho").val(),
+        alto: $("#alto").val(),
+        inner: window.innerHeight,
+        outer: window.outerHeight
+      }
+      $.ajax({
+        url: '/simulator',
+        method: 'GET',
+        data: datos,
+        success: function(respuesta) {
+                window.location.href = '/prueba';
+            }
+      });
+    });
+
+    
   </script>  
 </html>

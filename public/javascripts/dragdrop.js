@@ -29,7 +29,7 @@ function gestionarClick(tipo) {
   } else {
     seleccionado = tipo;
     $(`#${tipo}`).removeClass("cuadradoDrag").addClass("cuadradoSeleccionado");
-    $("#inicio, #prohibido, #fin").not(`#${tipo}`).removeClass("cuadradoSeleccionado").addClass("cuadradoDrag");
+    $("#inicio, #prohibido, #fin",).not(`#${tipo}`).removeClass("cuadradoSeleccionado").addClass("cuadradoDrag");
   }
 }
 
@@ -203,12 +203,27 @@ function gestionarPaso() {
     sol = feedback.lista
 }
 
-
-$("#empezar").on("click", function(){
+function ejecutar() {
   if(fallo === true) gestionarError()
   else if (actual.x !== final.x || actual.y !== final.y) gestionarPaso()
   else if(pasoFinal < paso) pintarFinal(sol[pasoFinal++])
-  else $("#empezar").prop("disabled", true);
+  else $("#empezar").prop("disabled", true); 
+}
+function ejecutarPaso(porPasos) {
+  if(porPasos === true) {
+    ejecutar()
+  } 
+  else if(pasoFinal <= paso) {
+    ejecutar()
+    setTimeout(() => ejecutarPaso(false), 200);
+  }
+}
+
+$("#empezar").on("click", function() {
+  ejecutarPaso(true)
+})
+$("#omitir").on("click", function() {
+  ejecutarPaso(false)
 })
 
 $("#limpiar").on("click", function(){
