@@ -49,3 +49,44 @@
 .apricot {
   background-color: #FFD6BA;
 }
+body::-webkit-scrollbar {
+  display: none;
+}
+
+input[type="range"] {
+  /* Cambia el color de la barra de fondo */
+  background-color: #e0e0e0;
+
+  /* Cambia el color de la barra de progreso */
+  outline-color: #4caf50;
+
+  /* Cambia el color del control deslizante */
+  thumb-color: #2196f3;
+}
+
+/* Para navegadores WebKit (por ejemplo, Chrome, Safari) */
+input[type="range"]::-webkit-slider-runnable-track {
+  background-color: #e0e0e0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  background-color: pink;
+}
+
+/* Para navegadores Firefox */
+input[type="range"]::-moz-range-track {
+  background-color: #e0e0e0;
+}
+
+input[type="range"]::-moz-range-thumb {
+  background-color: #742f5d;
+}
+
+/* Para navegadores IE y Edge */
+input[type="range"]::-ms-track {
+  background-color: #e0e0e0;
+}
+
+input[type="range"]::-ms-thumb {
+  background-color: #f32179;
+}
