@@ -1,44 +1,43 @@
 # A Star Algorithm
 A web project simulator for A* algorithm. Using just Vanilla JS 
 
-Here's a visual example of what the ending product will look like, we based the view on this image
-![image](https://github.com/jesuggc/A-Algorithm/assets/73794079/5d48d141-a096-422f-b576-dab4d1832d9c)
+*añadir demo gif*
 
-
-The main goal of this project was to learn how the a* algorithm works on a basic level in under a month. Therefore the algorithm may not always choose the best path from point A to B since we will not be link reorganizing
+The main goal of this project was to learn how the A* Algorithm works on a basic level in under a month. Therefore the algorithm may not always choose the best path from point A to B since we will not be link reorganizing
 
 # Table of Contents
 
-1. [How the A* algorithm works](#how-the-A*-algorithm-works)
-2. [Introduction](#introduction)
-3. [Demo](#demo)
-4. [Features](#features)
-5. [Screenshots](#screenshots)
-6. [Roadmap](#roadmap)
-7. [Optimizations](#optimizations)
-8. [License](#license)
-9. [Lessons Learned](#lessons-learned)
-10. [Documentation](#documentation)
-    
-## How the A* algorithm  works
-The A* algorithm is a popular pathfinding algorithm commonly used in various applications, including robotics, video games, and route planning. It efficiently finds the shortest path between two points on a graph, considering both the cost of reaching each node and the estimated cost to reach the goal.
+1. [How the A* algorithm works](#How the A* algorithm  works)
+2. [User Guide](#user-guide)
+3. [Features](#features)
+4. [Roadmap](#roadmap)
+5. [Optimizations](#optimizations)
+6. [License](#license)
+7. [Design decissions](#Design-decissions)
+8. [Lessons Learned](#lessons-learned)
 
-Here's a brief description of how the A* algorithm works:
+    
+## How the A* Algorithm  works
+The A* Algorithm is a popular pathfinding algorithm commonly used in various applications, including robotics, video games, and route planning. It efficiently finds the shortest path between two points on a graph, considering both the cost of reaching each node and the estimated cost to reach the goal.
+
+Here's a brief description of how the A* Algorithm works:
 
 Initialization: Start with an initial node (often called the start node) and a goal node. Assign initial values such as cost and heuristic estimates to each node.
 
 Exploration: The algorithm maintains two lists of nodes: open and closed. It starts by adding the initial node to the open list. While there are nodes in the open list, the algorithm iteratively selects the node with the lowest combined cost (actual cost from start node plus estimated cost to goal node) and explores its neighbors.
 
-Evaluation of Neighbors: For each neighbor of the current node, calculate its cost from the start node and estimate its cost to the goal node (heuristic function). Update the neighbor's cost if a shorter path is found, and add it to the open list if it's not already there.
+Evaluation of neighbours: For each neighbour of the current node, calculate its cost from the start node and estimate its cost to the goal node (heuristic function). Update the neighbor's cost if a shorter path is found, and add it to the open list if it's not already there.
 
 Termination: If the goal node is reached, the shortest path is found. If the open list becomes empty before reaching the goal, there is no path.
 
-Path Reconstruction: Once the goal node is reached, trace back the path from the goal node to the start node using pointers or references stored in each node.
+Path reconstruction: Once the goal node is reached, trace back the path from the goal node to the start node using pointers or references stored in each node.
 
 In A* without link reorganization, the algorithm follows a straightforward approach without adjusting the links between nodes dynamically during exploration. This means that once a node is added to the closed list, its connections to other nodes remain unchanged, regardless of whether a shorter path to it is discovered later.
 
 
-## Introduction
+## User guide
+
+*añadir cuadros de colores*
 
 The first view will prompt the user to determine the grid's size, using a range input to choose the width and height values.
 
@@ -58,7 +57,7 @@ By clicking on:
 During the exploration, the two list will be represented by colouring the selected cells:
 | Color             | Box                                                                |
 | ----------------- | ------------------------------------------------------------------ |
-| ![#ff192f](https://via.placeholder.com/10/ff192f?text=+)  | Open List |
+| ![#0a192f](https://via.placeholder.com/10/0a192f?text=+)  | Open List |
 | ![#0a192f](https://via.placeholder.com/10/0a192f?text=+)  | Closed List |
 
 Once the path is found, the cells will change colours to show the result:
@@ -69,23 +68,6 @@ Once the path is found, the cells will change colours to show the result:
 
 
 
-
-## Screenshots
-
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-
-
-
-## Demo
-
-Insert gif or link to demo
-
-
-## Documentation
-
-[Documentation](https://linktodocumentation)
-
-
 ## Features
 
 - Choose the grid's dimensions
@@ -93,20 +75,6 @@ Insert gif or link to demo
 - Calculate the cost of traveling from starting point to finishing point
 
 
-## Run Locally
-
-Clone the project
-bash
-git clone https://link-to-project/
-Go to the project directory
-bash
-  cd my-project
-Install dependencies
-bash
-  npm install
-Start the server
-bash
-  npm run start
 ## Roadmap
 
 - Make a simple grid, with a clear design easy to understand at first sight
@@ -122,13 +90,13 @@ bash
 
 
 ## Optimizations
-
+*añadir*
 What optimizations did you make in your code? E.g. refactors, performance improvements, accessibility
 
 
 ## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+*añadir licencia*
+[MIT](https://github.com/jesuggc/A-Algorithm/blob/main/license.txt)
 
 ## Design decissions
 
