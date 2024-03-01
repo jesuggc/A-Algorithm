@@ -9,28 +9,65 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
       .cuadrado {
-        max-width:  <%=(0.9*inner)/alto%>px;
-        height:     <%=(0.9*inner)/alto%>px;
+        max-width:  <%=(0.8*inner)/alto%>px;
+        height:     <%=(0.8*inner)/alto%>px;
         border: 1px solid black;
         background-color: white;
       }
       .cuadradoDrag {
-        max-width:  <%=(0.9*inner)/alto%>px;
-        height:     <%=(0.9*inner)/alto%>px;
+        max-width:  <%=(0.8*inner)/20%>px;
+        height:     <%=(0.8*inner)/20%>px;
         border: 1px solid black;
       } 
       
-    .cuadradoSeleccionado {
-      max-width:  <%=(0.9*inner)/alto%>px;
-      height:     <%=(0.9*inner)/alto%>px;
-      border: 1px solid white;
-    }     
-      </style>
-      <link rel='stylesheet' href='/stylesheets/style.css' />
+      .cuadradoSeleccionado {
+        max-width:  <%=(0.8*inner)/20%>px;
+        height:     <%=(0.8*inner)/20%>px;
+        border: 1px solid white;
+      }     
+    </style>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
-  <body>
+  <body class="mintgreen">
+    <div style="height:<%=(0.1*inner)%>px">
+
+    </div>
     <div id="mainRow" data-id="<%=alto%>,<%=ancho%>" class="row">
-      <div class="col-9 bg-warning">
+      <div class="col-1 offset-1 paynesgray p-4 rounded-4">
+        <div class="row cambridgeblue p-2 rounded-3 my-2">
+          <div class="col">
+            <div id="inicio" draggable=true class="cuadradoDrag inicio"></div>
+          </div>
+          <div class="col align-items-center d-flex">
+            <span class="text-center">Inicio</span>
+          </div>
+        </div>
+        <div class="row cambridgeblue p-2 rounded-3 my-2">
+          <div class="col">
+            <div id="prohibido" draggable=true class="cuadradoDrag prohibido"></div>
+          </div>
+          <div class="col align-items-center d-flex">
+            <span class="text-center">Fin</span>
+          </div>
+        </div>
+        <div class="row cambridgeblue p-2 rounded-3 my-2">
+          <div class="col">
+            <div id="fin" draggable=true class="cuadradoDrag fin"></div>
+          </div>
+          <div class="col align-items-center d-flex">
+            <span class="text-center">Fin</span>
+          </div>
+        </div>
+        <div class="row cambridgeblue p-2 rounded-3 my-2">
+          <div class="col">
+            <div id="borrar" draggable=true class="cuadradoDrag borrar"></div>
+          </div>
+          <div class="col align-items-center d-flex">
+            <span class="text-center">Fin</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
         <% for (let i = 0; i < alto; i++) { %>
           <div class="row justify-content-center ">
             <% for (let j = 0; j < ancho; j++) { %>
@@ -39,14 +76,8 @@
           </div>
         <% } %>
       </div>
-      <div class="col-3 bg-success justify-content-center">
-        <div class="row h-25">
-          <h1>Tipos de casilla</h1>
-          <div id="inicio" draggable=true class="cuadradoDrag inicio"></div>
-          <div id="prohibido" draggable=true class="cuadradoDrag prohibido"></div>
-          <div id="fin" draggable=true class="cuadradoDrag fin"></div>
-          <div id="borrar" draggable=true class="cuadradoDrag borrar"></div>
-        </div>
+      <div class="col-3 cambridgeblue rounded-4 p-4 justify-content-center">
+       
         <div class="row h-25">
           <h1>Información del paso actual</h1>
           

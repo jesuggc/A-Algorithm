@@ -1,0 +1,35 @@
+h1 {
+  font-size: 10em;
+}
+
+p {
+  font-size: 1.3em;
+}
+
+.paynesgray {
+  background-color: #555B6E;
+}
+.cambridgeblue {
+  background-color: #89B0AE;
+}
+.mintgreen {
+  background-color: #BEE3DB;
+}
+.seasalt {
+  background-color: #FAF9F9;
+}
+.apricot {
+  background-color: #FFD6BA;
+}
+.contenedor {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.justificado {
+  text-align: justify;
+  text-justify: inter-word;
+}

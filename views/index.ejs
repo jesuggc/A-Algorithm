@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Algoritmo A*</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> 
+    <link rel='stylesheet' href='/stylesheets/styleIndex.css' />
   </head>
   <body>
-    <div class="bg-info">
-      <form method="POST" action="/simulator">
-        <h1>Elige el tamaño de la cuadricula</h1>
-        <input id="ancho" min="3" max="20" type="range" step="1" name="ancho"/>
-        <input id="alto" min="3" max="20" type="range" step="1" name="alto"/>
-        <h1 id="textoancho"></h1>
-        <h1 id="textoalto"></h1>
-        <input id="inner" type="hidden" name="inner">
-        <input id="enviar" type="submit" value="Enviar"/>
-      </form>
+    <div class="mintgreen contenedor">
+      <div class="cambridgeblue justify-content-center rounded-5 p-5 ">
+        <h1 class="text-center my-4">Algoritmo A*</h1>  
+        <div class="row container">
+          <div class="col my-auto justificado ">
+              <p>Página interactiva desarrollada con el objetivo de entender el algorimo A*. Este algoritmo encuentra un camino optimo entre dos puntos evitando obstaculos. Para simplificar el entendimiento del algoritmo no se emplea la reorientación de nodos lo cual implica que la solución podría ser más eficiente.</p>
+          </div>
+          <div class="col my-auto paynesgray rounded-4 p-4 mx-2 text-center">
+            
+            <form method="POST" action="/simulator">
+              <h2>Elige el tamaño de la cuadricula</h2>
+              <div class="row text-center">
+                <div class="col">
+                  <h2 class="text-center" id="textoancho">Ancho: 12</h2>
+                  <input id="ancho" min="3" max="20" type="range" step="1" name="ancho"/>
+                </div>
+                <div class="col ">
+                  <h2 id="textoalto">Alto: 12</h2>
+                  <input id="alto" min="3" max="20" type="range" step="1" name="alto"/>
+                </div>
+                <input id="inner" type="hidden" name="inner">
+              </div>
+              <input class="btn btn-primary" id="enviar" type="submit" value="Enviar"/>
+              </form>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
   <script>
@@ -30,26 +47,5 @@
     $("#ancho").on("input", function(){
       $("#textoancho").empty().append("Ancho: " + $("#ancho").val())
     })
-
-    $("#ancho").data("id", window.innerHeight);
-    $("#alto").data("id", window.outerHeight);
-    $("#enviar").on("click", function() {
-      let datos = {
-        ancho: $("#ancho").val(),
-        alto: $("#alto").val(),
-        inner: window.innerHeight,
-        outer: window.outerHeight
-      }
-      $.ajax({
-        url: '/simulator',
-        method: 'GET',
-        data: datos,
-        success: function(respuesta) {
-                window.location.href = '/prueba';
-            }
-      });
-    });
-
-    
   </script>  
 </html>
