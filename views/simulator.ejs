@@ -9,8 +9,8 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
       .cuadrado {
-        max-width:  <%=(0.8*inner)/alto%>px;
-        height:     <%=(0.8*inner)/alto%>px;
+        max-width:  <%=(0.8*inner)/maximo%>px;
+        height:     <%=(0.8*inner)/maximo%>px;
         border: 1px solid black;
         background-color: white;
       }
@@ -25,6 +25,11 @@
         height:     <%=(0.8*inner)/20%>px;
         border: 1px solid white;
       }     
+      .seleccionado {
+        
+        transform: translateX(30px);
+        transition: transform 0.5s ease-in-out;
+      }
     </style>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
@@ -33,8 +38,13 @@
 
     </div>
     <div id="mainRow" data-id="<%=alto%>,<%=ancho%>" class="row">
-      <div class="col-1 offset-1 paynesgray p-4 rounded-4">
-        <div class="row cambridgeblue p-2 rounded-3 my-2">
+      <div class="col-2 offset-1 paynesgray p-4 rounded-4 my-auto">
+        <div class="row cambridgeblue p-2 rounded-3 my-3">
+          <div class="col d-flex justify-content-center">
+            <strong>Personalizable</strong>
+          </div>
+        </div>
+        <div id="divinicio" class="row cambridgeblue p-2 rounded-3 my-3">
           <div class="col">
             <div id="inicio" draggable=true class="cuadradoDrag inicio"></div>
           </div>
@@ -42,7 +52,7 @@
             <span class="text-center">Inicio</span>
           </div>
         </div>
-        <div class="row cambridgeblue p-2 rounded-3 my-2">
+        <div id="divprohibido" class="row cambridgeblue p-2 rounded-3 my-3">
           <div class="col">
             <div id="prohibido" draggable=true class="cuadradoDrag prohibido"></div>
           </div>
@@ -50,7 +60,7 @@
             <span class="text-center">Obstaculo</span>
           </div>
         </div>
-        <div class="row cambridgeblue p-2 rounded-3 my-2">
+        <div id="divfin" class="row cambridgeblue p-2 rounded-3 my-3">
           <div class="col">
             <div id="fin" draggable=true class="cuadradoDrag fin"></div>
           </div>
@@ -58,7 +68,7 @@
             <span class="text-center">Fin</span>
           </div>
         </div>
-        <div class="row cambridgeblue p-2 rounded-3 my-2">
+        <div id="divborrar" class="row cambridgeblue p-2 rounded-3 my-3">
           <div class="col">
             <div id="borrar" draggable=true class="cuadradoDrag borrar"></div>
           </div>
@@ -66,8 +76,45 @@
             <span class="text-center">Borrar</span>
           </div>
         </div>
+        <div class="row cambridgeblue p-2 rounded-3 my-3">
+          <div class="col d-flex justify-content-center">
+            <strong>Información</strong>
+          </div>
+        </div>
+        <div class="row cambridgeblue p-2 rounded-3 my-3">
+          <div class="col">
+            <div id="fin" draggable=true class="cuadradoDrag abierta"></div>
+          </div>
+          <div class="col align-items-center d-flex">
+            <span class="text-center">Abierta</span>
+          </div>
+          <div class="col align-items-center d-flex checkbox-wrapper-2">
+            <!-- <input id="checkAbierta" type="checkbox" checked> -->
+            <input id="checkAbierta" type="checkbox" class="sc-gJwTLC ikxBAC" checked>
+          </div>
+        </div>
+        <div class="row cambridgeblue p-2 rounded-3 my-3">
+          <div class="col">
+            <div id="fin" draggable=true class="cuadradoDrag recorrido"></div>
+          </div>
+          <div class="col align-items-center d-flex">
+            <span class="text-center">Cerrada</span>
+          </div>
+          <div class="col align-items-center d-flex checkbox-wrapper-2">
+            <!-- <input type="checkbox" checked> -->
+            <input id="checkCerrada" type="checkbox" class="sc-gJwTLC ikxBAC" checked>
+          </div>
+        </div>
+        <div class="row cambridgeblue p-2 rounded-3 my-3">
+          <div class="col">
+            <div id="fin" draggable=true class="cuadradoDrag final"></div>
+          </div>
+          <div class="col align-items-center d-flex">
+            <span class="text-center">Resultado</span>
+          </div>
+        </div>
       </div>
-      <div class="col-6">
+      <div class="col-5 my-auto">
         <% for (let i = 0; i < alto; i++) { %>
           <div class="row justify-content-center ">
             <% for (let j = 0; j < ancho; j++) { %>
@@ -76,7 +123,7 @@
           </div>
         <% } %>
       </div>
-      <div class="col-3 cambridgeblue rounded-4 p-4 justify-content-center">
+      <div class="col-3 cambridgeblue rounded-4 p-4 justify-content-center position-relative ">
        
         <div class="row h-25">
           <h1>Información del paso actual</h1>
@@ -87,36 +134,35 @@
           </div>
         </div>
         <div class="row  ">
-          
-
-            <button id="limpiar" type="button" class=" col m-2 btn btn-secondary ">Limpiar</button>
-            
-  
-
-            <button id="empezar" type="button" class="col m-2 btn btn-primary ">Siguiente</button>
-            
-         
+          <button id="empezar" type="button" class="col m-2 btn btn-primary ">Siguiente</button>
+          <button id="omitir" type="button" class="  col  m-2 btn btn-warning ">Omitir</button>
         </div>
         <div class="row  ">
-          
-
+          <button id="limpiar" type="button" class=" col m-2 btn btn-secondary ">Limpiar</button>
             
-            <button onclick="window.location.href='/'" type="button" class="col m-2 btn btn-success ">Volver</button>
-  
-
-            <button id="omitir" type="button" class="col m-2 btn btn-warning ">Omitir</button>
-            
-         
         </div>
-        
+        <input id="tiempo" type="number" value="200" min="1" class="rounded " >
+        <button onclick="window.location.href='/'" type="button" class="position-absolute bottom-0 end-0 float-end m-2 btn btn-success ">Volver</button>
+
       </div>
     </div>
     <div id="dev">
-      <h1 id="devPaso"> </h1>
       <h3 id="devAbierta"> </h3>
+      <h1 id="devPaso"> </h1>
       <h3 id="devCerrada"> </h3>
       <h3 id="devPrueba"> </h3>
-
+    </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto">Bootstrap</strong>
+          <small>Just now!</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div id="toastMessage" class="toast-body">
+          Hello, world! This is a toast message.
+        </div>
+      </div>
     </div>
   </body>
   <script src="/javascripts/dragdrop.js">

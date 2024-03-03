@@ -1,13 +1,14 @@
 $("#inicio").on("dragstart", () => drageado = "inicio")
-$("#inicio").on("click", () => gestionarClick("inicio"));
+$("#divinicio").on("click", () => gestionarClick("inicio"));
 $("#prohibido").on("dragstart", () => drageado = "prohibido")
-$("#prohibido").on("click", () => gestionarClick("prohibido"));
+$("#divprohibido").on("click", () => gestionarClick("prohibido"));
 $("#fin").on("dragstart", () => drageado = "fin")
-$("#fin").on("click", () => gestionarClick("fin"));
+$("#divfin").on("click", () => gestionarClick("fin"));
 $("#borrar").on("dragstart", () => drageado = "borrar")
-$("#borrar").on("click", () => gestionarClick("borrar"));
+$("#divborrar").on("click", () => gestionarClick("borrar"));
 
 $(".cuadrado").on("dragover", (event) => event.preventDefault())
+
 
 $(".cuadrado").on("drop", function() {
   if (drageado === "inicio" || drageado === "fin") agregarInicioOFin($(this), drageado);
@@ -19,29 +20,34 @@ $(".cuadrado").on("drop", function() {
 $(".cuadrado").on("click", function() {
   if (seleccionado === "inicio" || seleccionado === "fin") agregarInicioOFin($(this), seleccionado);
   else if (seleccionado === "prohibido") $(this).addClass("prohibido").removeClass("inicio fin");
-  else if (seleccionado === "borrar") $(this).removeClass("inicio prohibido fin")
+  else if (seleccionado === "borrar") borrarLogico($(this));
 });
 
+function borrarLogico(casilla){
+  casilla.removeClass("inicio prohibido fin")
+  let pos = abierta.findIndex(elemento => elemento.x ===  parseInt(casilla.attr('id').split(',')[0]) && elemento.y ===  parseInt(casilla.attr('id').split(',')[1]))
+  if(pos !== -1) abierta.splice(pos,1);
+}
 function gestionarClick(tipo) {
   if (seleccionado === tipo) {
     seleccionado = null;
-    $(`#${tipo}`).removeClass("cuadradoSeleccionado").addClass("cuadradoDrag");
+    $("#div"+`${tipo}`).removeClass("seleccionado").css("transition","transform 0.5s ease-in-out");
   } else {
     seleccionado = tipo;
-    $(`#${tipo}`).removeClass("cuadradoDrag").addClass("cuadradoSeleccionado");
-    $("#inicio, #prohibido, #fin",).not(`#${tipo}`).removeClass("cuadradoSeleccionado").addClass("cuadradoDrag");
+    $("#div"+`${tipo}`).addClass("seleccionado");
+    $("#divinicio, #divprohibido, #divfin, #divborrar").not("#div"+`${tipo}`).removeClass("seleccionado").css("transition","transform 0.5s ease-in-out");
   }
 }
 
 function agregarInicioOFin(casilla, posicion) {
   casilla.removeClass("inicio fin prohibido").addClass(posicion);
-  if (posicion === "inicio") {
-    inicio = { x: parseInt(casilla.attr('id').split(',')[0]), y: parseInt(casilla.attr('id').split(',')[1]) };
-    actual = inicio;
-    abierta.push(inicio);
-  } else if (posicion === "fin") {
-    final = { x: parseInt(casilla.attr('id').split(',')[0]), y: parseInt(casilla.attr('id').split(',')[1]) };
-  }
+  // if (posicion === "inicio") {
+  //   inicio = { x: parseInt(casilla.attr('id').split(',')[0]), y: parseInt(casilla.attr('id').split(',')[1]) };
+  //   actual = inicio;
+  //   abierta.push(inicio);
+  // } else if (posicion === "fin") {
+  //   final = { x: parseInt(casilla.attr('id').split(',')[0]), y: parseInt(casilla.attr('id').split(',')[1]) };
+  // }
 }
 
 let drageado = null 
@@ -57,6 +63,8 @@ let cerrada = []
 let sol = []
 let alto = parseInt($("#mainRow").attr("data-id").split(",")[0])
 let ancho = parseInt($("#mainRow").attr("data-id").split(",")[1])
+const toastLiveExample = $("#liveToast")
+const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
 
 function encontrarCercanos(x,y) {
   let lista = []
@@ -107,6 +115,11 @@ function posMinimo(lista) {
       }
   })
   return pos
+}
+
+function createToast(mensaje) {
+  $("#toastMessage").empty().append(mensaje)
+  toastBootstrap.show()
 }
 
 // function mostrarInfo(opciones,minimo) {
@@ -172,7 +185,7 @@ function core() {
   // Eliminar el nodo de abierta que tenga un valor mínimo de f, e introducirlo en CERRADA
   eliminarAbierta()
   cerrada.push(actual)
-  pintarCerrada(actual)
+  if($("#checkCerrada").prop('checked'))pintarCerrada(actual)
   
   if((actual.x === final.x && actual.y === final.y)) return {fallo: false, lista: generarRecorrido()} // Si el nodo actual es meta, devolver el camino solucion
  
@@ -185,7 +198,7 @@ function core() {
     if(existe === -1) abierta.push(ele)
     else if (ele.total < abierta[existe].total) actualizarNodo(abierta[existe], ele) // Comprobar si estaba en abierta y actualizar nodo si g es menor  
     
-    pintarAbierta(ele)
+    if($("#checkAbierta").prop('checked')) pintarAbierta(ele)
   })
 
   return {fallo:null,lista:null}
@@ -210,20 +223,36 @@ function ejecutar() {
   else $("#empezar").prop("disabled", true); 
 }
 function ejecutarPaso(porPasos) {
-  if(porPasos === true) {
-    ejecutar()
+  let ini = $($(".inicio")[1])
+  let fin = $($(".fin")[1])
+
+  inicio = { x: parseInt(ini.attr('id').split(',')[0]), y: parseInt(ini.attr('id').split(',')[1]) };
+  final = { x: parseInt(fin.attr('id').split(',')[0]), y: parseInt(fin.attr('id').split(',')[1]) };
+  if(paso === 0) {
+    actual = inicio
+    abierta.push(inicio);
   } 
+
+  if(porPasos === true) ejecutar() 
   else if(pasoFinal <= paso) {
     ejecutar()
-    setTimeout(() => ejecutarPaso(false), 200);
+    setTimeout(() => ejecutarPaso(false), $("#tiempo").val());
   }
 }
 
+function comprobarErrores(paso) {
+  if(!$(".cuadrado").hasClass("inicio")) createToast("No has creado el inicio")
+  else if ($('.inicio').length > 2) createToast("Solo debe haber una casilla de inicio")
+  else if(!$(".cuadrado").hasClass("fin")) createToast("No has creado el final")
+  else if ($('.fin').length > 2) createToast("Solo debe haber una casilla de fin")
+  else ejecutarPaso(paso)
+}
+
 $("#empezar").on("click", function() {
-  ejecutarPaso(true)
+  comprobarErrores(true)
 })
 $("#omitir").on("click", function() {
-  ejecutarPaso(false)
+  comprobarErrores(false)
 })
 
 $("#limpiar").on("click", function(){
@@ -239,5 +268,7 @@ $("#limpiar").on("click", function(){
   paso = 0
   pasoFinal = 0
   fallo = false
+  $("#divinicio, #divfin, #divprohibido, #divborrar").removeClass("seleccionado").css("transition","transform 0.5s ease-in-out")
   $("#empezar").prop("disabled", false);
 })
+

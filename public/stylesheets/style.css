@@ -53,40 +53,66 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-input[type="range"] {
-  /* Cambia el color de la barra de fondo */
-  background-color: #e0e0e0;
 
-  /* Cambia el color de la barra de progreso */
-  outline-color: #4caf50;
+  .checkbox-wrapper-2 .ikxBAC {
+    appearance: none;
+    background-color: #dfe1e4;
+    border-radius: 72px;
+    border-style: none;
+    flex-shrink: 0;
+    height: 20px;
+    margin: 0;
+    position: relative;
+    width: 30px;
+  }
 
-  /* Cambia el color del control deslizante */
-  thumb-color: #2196f3;
-}
+  .checkbox-wrapper-2 .ikxBAC::before {
+    bottom: -6px;
+    content: "";
+    left: -6px;
+    position: absolute;
+    right: -6px;
+    top: -6px;
+  }
 
-/* Para navegadores WebKit (por ejemplo, Chrome, Safari) */
-input[type="range"]::-webkit-slider-runnable-track {
-  background-color: #e0e0e0;
-}
+  .checkbox-wrapper-2 .ikxBAC,
+  .checkbox-wrapper-2 .ikxBAC::after {
+    transition: all 100ms ease-out;
+  }
 
-input[type="range"]::-webkit-slider-thumb {
-  background-color: pink;
-}
+  .checkbox-wrapper-2 .ikxBAC::after {
+    background-color: #fff;
+    border-radius: 50%;
+    content: "";
+    height: 14px;
+    left: 3px;
+    position: absolute;
+    top: 3px;
+    width: 14px;
+  }
 
-/* Para navegadores Firefox */
-input[type="range"]::-moz-range-track {
-  background-color: #e0e0e0;
-}
+  .checkbox-wrapper-2 input[type=checkbox] {
+    cursor: default;
+  }
 
-input[type="range"]::-moz-range-thumb {
-  background-color: #742f5d;
-}
+  .checkbox-wrapper-2 .ikxBAC:hover {
+    background-color: #c9cbcd;
+    transition-duration: 0s;
+  }
 
-/* Para navegadores IE y Edge */
-input[type="range"]::-ms-track {
-  background-color: #e0e0e0;
-}
+  .checkbox-wrapper-2 .ikxBAC:checked {
+    background-color: #6e79d6;
+  }
 
-input[type="range"]::-ms-thumb {
-  background-color: #f32179;
-}
+  .checkbox-wrapper-2 .ikxBAC:checked::after {
+    background-color: #fff;
+    left: 13px;
+  }
+
+  .checkbox-wrapper-2 :focus:not(.focus-visible) {
+    outline: 0;
+  }
+
+  .checkbox-wrapper-2 .ikxBAC:checked:hover {
+    background-color: #535db3;
+  }
