@@ -43,126 +43,143 @@
     </div>
     <div id="mainRow" data-id="<%=alto%>,<%=ancho%>" class="row justify-content-center ">
       <div class="col-2 p-4 rounded-4 my-auto tarjeta paynesgray">
-        <div class=" cara-trasera d-none text-white">
-          <p>
-            <div class=" cambridgeblue p-1 rounded-3 text-black d-flex justify-content-center">
-                <strong>Personalizable</strong>
-            </div>
-            En esta sección podrá elegir el tipo de celda, ya sea arrastrando a la cuadricula, seleccionando o 
-            clickando en las teclas: 1,2,3,4 respectivamente, para diseñar el laberinto
-          </p>
-          <p>
-            <div class=" cambridgeblue p-1 rounded-3 text-black d-flex justify-content-center">
-              <strong>Información</strong>
-            </div>
-            Esta sección sirve de leyenda y permite controlar la informacion representada durante la simulación 
-            al interacturar con <span class="checkbox-wrapper-2"><input type="checkbox" class="sc-gJwTLC ikxBAC " checked ></span>
-            
-          </p>
-          <p>Para ejecutar la simulación use los botones:
-              <p>
-                <span><button type="button" class="btn btn-primary " style="cursor: default;">Siguiente</button>
-                <span class="  text-center btn btn-warning" style="cursor: default;">
-                  <input type="number" value="200"  class="rounded col ms-2 me-0 infoinput" style="height:1.5em; max-width:4.5em;" readonly>
-                  <span class="col">Omitir</span>
-                </span>
-              </span>
-              </p>
-              <p> Puede introducir el tiempo en ms entre paso y paso al omitir </p>
-          </p>
-
-        </div>
-          <div class="  paynesgray  cara-frontal">
-            <div class="row cambridgeblue p-1 rounded-3 my-3">
-              <div class="col d-flex justify-content-center">
-                <strong>Personalizable</strong>
+        <div class=" cara-trasera d-none text-white justificado scrollableDiv ">
+          
+            <p>
+              <div class=" cambridgeblue p-1 rounded-3 text-black d-flex justify-content-center">
+                  <strong>Personalizable</strong>
               </div>
-            </div>
-            <div id="divinicio" class="row cambridgeblue p-1 rounded-3 my-3">
-              <div class="col">
-                <div id="inicio" draggable=true class="cuadradoDrag inicio"></div>
-              </div>
-              <div class="col align-items-center d-flex">
-                <span class="text-center">Inicio</span>
-              </div>
-            </div>
-            <div id="divprohibido" class="row cambridgeblue p-1 rounded-3 my-3">
-              <div class="col">
-                <div id="prohibido" draggable=true class="cuadradoDrag prohibido"></div>
-              </div>
-              <div class="col align-items-center d-flex">
-                <span class="text-center">Obstaculo</span>
-              </div>
-            </div>
-            <div id="divfin" class="row cambridgeblue p-1 rounded-3 my-3">
-              <div class="col">
-                <div id="fin" draggable=true class="cuadradoDrag fin"></div>
-              </div>
-              <div class="col align-items-center d-flex">
-                <span class="text-center">Fin</span>
-              </div>
-            </div>
-            <div id="divborrar" class="row cambridgeblue p-1 rounded-3 my-3">
-              <div class="col">
-                <div id="borrar" draggable=true class="cuadradoDrag borrar"></div>
-              </div>
-              <div class="col align-items-center d-flex">
-                <span class="text-center">Borrar</span>
-              </div>
-            </div>
-            <div id="divpenalizacion" class="row cambridgeblue p-1 rounded-3 my-3">
-              <div class="col">
-                <div id="borrar" draggable=true class="cuadradoDrag penalizacion"></div>
-              </div>
-              <div class="col align-items-center d-flex">
-                <span class="text-center">Penalización</span>
-              </div>
-            </div>
-            <div id="divparada" class="row cambridgeblue p-1 rounded-3 my-3">
-              <div class="col">
-                <div id="borrar" draggable=true class="cuadradoDrag parada"></div>
-              </div>
-              <div class="col align-items-center d-flex">
-                <span class="text-center">Paradas</span>
-              </div>
-            </div>
-            <div class="row cambridgeblue p-1 rounded-3 my-3">
-              <div class="col d-flex justify-content-center">
+              En esta sección podrá elegir el tipo de celda, ya sea arrastrando a la cuadricula, seleccionando o 
+              clickando en las teclas: 1,2,3,4 respectivamente, para diseñar el laberinto
+            </p>
+            <p>
+              <div class=" cambridgeblue p-1 rounded-3 text-black d-flex justify-content-center">
                 <strong>Información</strong>
               </div>
-            </div>
-            <div class="row cambridgeblue p-1 rounded-3 my-3">
-              <div class="col">
-                <div id="fin" draggable=true class="cuadradoDrag abierta"></div>
-              </div>
-              <div class="col align-items-center d-flex">
-                <span class="text-center">Abierta</span>
-              </div>
-              <div class="col align-items-center d-flex checkbox-wrapper-2">
-                <!-- <input id="checkAbierta" type="checkbox" checked> -->
-                <input id="checkAbierta" type="checkbox" class="sc-gJwTLC ikxBAC" checked>
-              </div>
-            </div>
-            <div class="row cambridgeblue p-1 rounded-3 my-3">
-              <div class="col">
-                <div id="fin" draggable=true class="cuadradoDrag recorrido"></div>
-              </div>
-              <div class="col align-items-center d-flex">
-                <span class="text-center">Cerrada</span>
-              </div>
-              <div class="col align-items-center d-flex checkbox-wrapper-2">
-                <input id="checkCerrada" type="checkbox" class="sc-gJwTLC ikxBAC" checked>
-              </div>
-            </div>
-            <div class="row cambridgeblue p-1 rounded-3 my-3">
-              <div class="col">
-                <div id="fin" draggable=true class="cuadradoDrag final"></div>
-              </div>
-              <div class="col align-items-center d-flex">
-                <span class="text-center">Resultado</span>
-              </div>
+              Esta sección sirve de leyenda y permite controlar la informacion representada durante la simulación 
+              al interacturar con <span class="checkbox-wrapper-2"><input type="checkbox" class="sc-gJwTLC ikxBAC " checked disabled></span>
+              
+            </p>
+            <p>Para ejecutar la <strong>simulación </strong>use los botones:
+              <p>
+                <span>
+                  <button type="button" class="btn btn-primary " style="cursor: default;">Siguiente</button>
+                  <span class="  text-center btn btn-warning" style="cursor: default;">
+                    <input type="number" value="200"  class="rounded col infoinput" style="height:1.5em; max-width:3em;" readonly>
+                    <span class="col">Omitir</span>
+                  </span>
+                </span>
+              </p>
+              <p>Puede modificar el tiempo (ms) entre paso y paso al omitir </p>
+            </p>
+            <p> 
+              <button  type="button" class=" btn btn-secondary ">Limpiar</button>
+              Vacía la cuadrícula
+            </p>
+            <p>
+              En "información del paso" se observan los nodos que rodean al nodo actual, los cuales, si no están 
+              ya, se guardan en lista abierta teniendo en cuenta la distancia:
+              <p>\(f(x,y)=g(x,y) + h(x,y)\)</p>
+              Pasando el ratón por encima de cada función, su respectivo nodo empezará a parpadear en la cuadrícula.
+            </p>
+            <p>En "nodo siguiente" se mostrará el nodo que se explorará a continuación, aquel que tenga el mínimo 
+              valor de f(x,y) y este guardado en lista abierta, es por eso que en caso de ser un nodo 
+              sucesor del nodo en el paso actual, puede no tener el mismo valor que f(x), pues puede 
+              llegarse a él con un coste menor desde un nodo ya explorado.
+            </p>
+          
+        </div>
+        <div class="  paynesgray  cara-frontal">
+          <div class="row cambridgeblue p-1 rounded-3 my-3">
+            <div class="col d-flex justify-content-center">
+              <strong>Personalizable</strong>
             </div>
           </div>
+          <div id="divinicio" class="row cambridgeblue p-1 rounded-3 my-3">
+            <div class="col">
+              <div id="inicio" draggable=true class="cuadradoDrag inicio"></div>
+            </div>
+            <div class="col align-items-center d-flex">
+              <span class="text-center">Inicio</span>
+            </div>
+          </div>
+          <div id="divprohibido" class="row cambridgeblue p-1 rounded-3 my-3">
+            <div class="col">
+              <div id="prohibido" draggable=true class="cuadradoDrag prohibido"></div>
+            </div>
+            <div class="col align-items-center d-flex">
+              <span class="text-center">Obstaculo</span>
+            </div>
+          </div>
+          <div id="divfin" class="row cambridgeblue p-1 rounded-3 my-3">
+            <div class="col">
+              <div id="fin" draggable=true class="cuadradoDrag fin"></div>
+            </div>
+            <div class="col align-items-center d-flex">
+              <span class="text-center">Fin</span>
+            </div>
+          </div>
+          <div id="divborrar" class="row cambridgeblue p-1 rounded-3 my-3">
+            <div class="col">
+              <div id="borrar" draggable=true class="cuadradoDrag borrar"></div>
+            </div>
+            <div class="col align-items-center d-flex">
+              <span class="text-center">Borrar</span>
+            </div>
+          </div>
+          <div id="divpenalizacion" class="row cambridgeblue p-1 rounded-3 my-3">
+            <div class="col">
+              <div id="borrar" draggable=true class="cuadradoDrag penalizacion"></div>
+            </div>
+            <div class="col align-items-center d-flex">
+              <span class="text-center">Penalización</span>
+            </div>
+          </div>
+          <div id="divparada" class="row cambridgeblue p-1 rounded-3 my-3">
+            <div class="col">
+              <div id="borrar" draggable=true class="cuadradoDrag parada"></div>
+            </div>
+            <div class="col align-items-center d-flex">
+              <span class="text-center">Paradas</span>
+            </div>
+          </div>
+          <div class="row cambridgeblue p-1 rounded-3 my-3">
+            <div class="col d-flex justify-content-center">
+              <strong>Información</strong>
+            </div>
+          </div>
+          <div class="row cambridgeblue p-1 rounded-3 my-3">
+            <div class="col">
+              <div id="fin" draggable=true class="cuadradoDrag abierta"></div>
+            </div>
+            <div class="col align-items-center d-flex">
+              <span class="text-center">Abierta</span>
+            </div>
+            <div class="col align-items-center d-flex checkbox-wrapper-2">
+              <!-- <input id="checkAbierta" type="checkbox" checked> -->
+              <input id="checkAbierta" type="checkbox" class="sc-gJwTLC ikxBAC" checked>
+            </div>
+          </div>
+          <div class="row cambridgeblue p-1 rounded-3 my-3">
+            <div class="col">
+              <div id="fin" draggable=true class="cuadradoDrag recorrido"></div>
+            </div>
+            <div class="col align-items-center d-flex">
+              <span class="text-center">Cerrada</span>
+            </div>
+            <div class="col align-items-center d-flex checkbox-wrapper-2">
+              <input id="checkCerrada" type="checkbox" class="sc-gJwTLC ikxBAC" checked>
+            </div>
+          </div>
+          <div class="row cambridgeblue p-1 rounded-3 my-3">
+            <div class="col">
+              <div id="fin" draggable=true class="cuadradoDrag final"></div>
+            </div>
+            <div class="col align-items-center d-flex">
+              <span class="text-center">Resultado</span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-5 my-auto">
         <% for (let i = 0; i < alto; i++) { %>

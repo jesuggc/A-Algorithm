@@ -324,3 +324,11 @@ $("#ayuda").on("click", function() {
   $(".cara-trasera").toggleClass("d-none")
   $(".cara-frontal").toggleClass("d-none")
 })
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Obtener la altura de cara-frontal
+  var alturaCaraFrontal = document.querySelector('.cara-frontal').clientHeight;
+  
+  // Aplicar la altura al div scrollable-div
+  document.querySelector('.cara-trasera').style.height = alturaCaraFrontal + 'px';
+});

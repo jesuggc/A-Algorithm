@@ -114,8 +114,12 @@ body::-webkit-scrollbar {
 
 .cara-trasera {
   transform: rotateY(180deg);
+  
 }
 
+.scrollableDiv{
+  overflow-y: scroll;
+}
 .tarjetahover {
   transform: rotateY(180deg);
 }
@@ -184,4 +188,5 @@ body::-webkit-scrollbar {
 .checkbox-wrapper-2 .ikxBAC:checked:hover {
   background-color: #535db3;
 }
+
 
