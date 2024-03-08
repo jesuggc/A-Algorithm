@@ -318,3 +318,9 @@ $(document).keydown(function(e) {
   } 
 
 });
+
+$("#ayuda").on("click", function() {
+  $(".tarjeta").toggleClass("tarjetahover")
+  $(".cara-trasera").toggleClass("d-none")
+  $(".cara-frontal").toggleClass("d-none")
+})

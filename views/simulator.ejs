@@ -30,6 +30,10 @@
         transform: translateX(30px);
         transition: transform 0.5s ease-in-out;
       }
+      .infoinput[type="number"]::-webkit-inner-spin-button, .infoinput[type="number"]::-webkit-outer-spin-button  {
+  -webkit-appearance: none;
+  margin: 0;
+}
     </style>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
@@ -37,98 +41,108 @@
     <div style="height:<%=(0.1*inner)%>px">
 
     </div>
-    <div id="mainRow" data-id="<%=alto%>,<%=ancho%>" class="row justify-content-center">
-      <div class="col-2  paynesgray p-4 rounded-4 my-auto">
-        <div class="row cambridgeblue p-1 rounded-3 my-3">
-          <div class="col d-flex justify-content-center">
-            <strong>Personalizable</strong>
+    <div id="mainRow" data-id="<%=alto%>,<%=ancho%>" class="row justify-content-center ">
+      <div class="col-2 p-4 rounded-4 my-auto tarjeta paynesgray">
+          <div class=" cara-trasera d-none">
+            <p>Cara trasera</p>
+            <div class=" col m-2 btn btn-warning" style="cursor: default;">
+              <div class="row text-center">
+                <input type="number" value="200" min="1" max="999" class="rounded col ms-2 me-0 infoinput" style="height:1.5em; max-width:4.5em;" readonly>
+                <span class="col">Omitir</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div id="divinicio" class="row cambridgeblue p-1 rounded-3 my-3">
-          <div class="col">
-            <div id="inicio" draggable=true class="cuadradoDrag inicio"></div>
+          <div class="  paynesgray  cara-frontal">
+            <div class="row cambridgeblue p-1 rounded-3 my-3">
+              <div class="col d-flex justify-content-center">
+                <strong>Personalizable</strong>
+              </div>
+            </div>
+            <div id="divinicio" class="row cambridgeblue p-1 rounded-3 my-3">
+              <div class="col">
+                <div id="inicio" draggable=true class="cuadradoDrag inicio"></div>
+              </div>
+              <div class="col align-items-center d-flex">
+                <span class="text-center">Inicio</span>
+              </div>
+            </div>
+            <div id="divprohibido" class="row cambridgeblue p-1 rounded-3 my-3">
+              <div class="col">
+                <div id="prohibido" draggable=true class="cuadradoDrag prohibido"></div>
+              </div>
+              <div class="col align-items-center d-flex">
+                <span class="text-center">Obstaculo</span>
+              </div>
+            </div>
+            <div id="divfin" class="row cambridgeblue p-1 rounded-3 my-3">
+              <div class="col">
+                <div id="fin" draggable=true class="cuadradoDrag fin"></div>
+              </div>
+              <div class="col align-items-center d-flex">
+                <span class="text-center">Fin</span>
+              </div>
+            </div>
+            <div id="divborrar" class="row cambridgeblue p-1 rounded-3 my-3">
+              <div class="col">
+                <div id="borrar" draggable=true class="cuadradoDrag borrar"></div>
+              </div>
+              <div class="col align-items-center d-flex">
+                <span class="text-center">Borrar</span>
+              </div>
+            </div>
+            <div id="divpenalizacion" class="row cambridgeblue p-1 rounded-3 my-3">
+              <div class="col">
+                <div id="borrar" draggable=true class="cuadradoDrag penalizacion"></div>
+              </div>
+              <div class="col align-items-center d-flex">
+                <span class="text-center">Penalización</span>
+              </div>
+            </div>
+            <div id="divparada" class="row cambridgeblue p-1 rounded-3 my-3">
+              <div class="col">
+                <div id="borrar" draggable=true class="cuadradoDrag parada"></div>
+              </div>
+              <div class="col align-items-center d-flex">
+                <span class="text-center">Paradas</span>
+              </div>
+            </div>
+            <div class="row cambridgeblue p-1 rounded-3 my-3">
+              <div class="col d-flex justify-content-center">
+                <strong>Información</strong>
+              </div>
+            </div>
+            <div class="row cambridgeblue p-1 rounded-3 my-3">
+              <div class="col">
+                <div id="fin" draggable=true class="cuadradoDrag abierta"></div>
+              </div>
+              <div class="col align-items-center d-flex">
+                <span class="text-center">Abierta</span>
+              </div>
+              <div class="col align-items-center d-flex checkbox-wrapper-2">
+                <!-- <input id="checkAbierta" type="checkbox" checked> -->
+                <input id="checkAbierta" type="checkbox" class="sc-gJwTLC ikxBAC" checked>
+              </div>
+            </div>
+            <div class="row cambridgeblue p-1 rounded-3 my-3">
+              <div class="col">
+                <div id="fin" draggable=true class="cuadradoDrag recorrido"></div>
+              </div>
+              <div class="col align-items-center d-flex">
+                <span class="text-center">Cerrada</span>
+              </div>
+              <div class="col align-items-center d-flex checkbox-wrapper-2">
+                <input id="checkCerrada" type="checkbox" class="sc-gJwTLC ikxBAC" checked>
+              </div>
+            </div>
+            <div class="row cambridgeblue p-1 rounded-3 my-3">
+              <div class="col">
+                <div id="fin" draggable=true class="cuadradoDrag final"></div>
+              </div>
+              <div class="col align-items-center d-flex">
+                <span class="text-center">Resultado</span>
+              </div>
+            </div>
           </div>
-          <div class="col align-items-center d-flex">
-            <span class="text-center">Inicio</span>
-          </div>
-        </div>
-        <div id="divprohibido" class="row cambridgeblue p-1 rounded-3 my-3">
-          <div class="col">
-            <div id="prohibido" draggable=true class="cuadradoDrag prohibido"></div>
-          </div>
-          <div class="col align-items-center d-flex">
-            <span class="text-center">Obstaculo</span>
-          </div>
-        </div>
-        <div id="divfin" class="row cambridgeblue p-1 rounded-3 my-3">
-          <div class="col">
-            <div id="fin" draggable=true class="cuadradoDrag fin"></div>
-          </div>
-          <div class="col align-items-center d-flex">
-            <span class="text-center">Fin</span>
-          </div>
-        </div>
-        <div id="divborrar" class="row cambridgeblue p-1 rounded-3 my-3">
-          <div class="col">
-            <div id="borrar" draggable=true class="cuadradoDrag borrar"></div>
-          </div>
-          <div class="col align-items-center d-flex">
-            <span class="text-center">Borrar</span>
-          </div>
-        </div>
-        <div id="divpenalizacion" class="row cambridgeblue p-1 rounded-3 my-3">
-          <div class="col">
-            <div id="borrar" draggable=true class="cuadradoDrag penalizacion"></div>
-          </div>
-          <div class="col align-items-center d-flex">
-            <span class="text-center">Penalización</span>
-          </div>
-        </div>
-        <div id="divparada" class="row cambridgeblue p-1 rounded-3 my-3">
-          <div class="col">
-            <div id="borrar" draggable=true class="cuadradoDrag parada"></div>
-          </div>
-          <div class="col align-items-center d-flex">
-            <span class="text-center">Paradas</span>
-          </div>
-        </div>
-        <div class="row cambridgeblue p-1 rounded-3 my-3">
-          <div class="col d-flex justify-content-center">
-            <strong>Información</strong>
-          </div>
-        </div>
-        <div class="row cambridgeblue p-1 rounded-3 my-3">
-          <div class="col">
-            <div id="fin" draggable=true class="cuadradoDrag abierta"></div>
-          </div>
-          <div class="col align-items-center d-flex">
-            <span class="text-center">Abierta</span>
-          </div>
-          <div class="col align-items-center d-flex checkbox-wrapper-2">
-            <!-- <input id="checkAbierta" type="checkbox" checked> -->
-            <input id="checkAbierta" type="checkbox" class="sc-gJwTLC ikxBAC" checked>
-          </div>
-        </div>
-        <div class="row cambridgeblue p-1 rounded-3 my-3">
-          <div class="col">
-            <div id="fin" draggable=true class="cuadradoDrag recorrido"></div>
-          </div>
-          <div class="col align-items-center d-flex">
-            <span class="text-center">Cerrada</span>
-          </div>
-          <div class="col align-items-center d-flex checkbox-wrapper-2">
-            <!-- <input type="checkbox" checked> -->
-            <input id="checkCerrada" type="checkbox" class="sc-gJwTLC ikxBAC" checked>
-          </div>
-        </div>
-        <div class="row cambridgeblue p-1 rounded-3 my-3">
-          <div class="col">
-            <div id="fin" draggable=true class="cuadradoDrag final"></div>
-          </div>
-          <div class="col align-items-center d-flex">
-            <span class="text-center">Resultado</span>
-          </div>
-        </div>
       </div>
       <div class="col-5 my-auto">
         <% for (let i = 0; i < alto; i++) { %>
@@ -154,6 +168,7 @@
           <button id="limpiar" type="button" class="col m-2 btn btn-secondary ">Limpiar</button>
         </div>
         <button onclick="window.location.href='/'" type="button" class="position-absolute bottom-0 end-0 float-end m-2 btn btn-success ">Volver</button>
+        <button id="ayuda" type="button" class="position-absolute bottom-0 start-0 float-end m-2 btn btn-light ">Ayuda</button>
         <div class="row">
           <h1>Información del paso</h1>
           <div id="divInfo" class="apricot rounded-4">
@@ -163,12 +178,7 @@
         </div>
       </div>
     </div>
-    <div id="dev">
-      <h3 id="devAbierta"> </h3>
-      <h1 id="devPaso"> </h1>
-      <h3 id="devCerrada"> </h3>
-      <h3 id="devPrueba"> </h3>
-    </div>
+
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">

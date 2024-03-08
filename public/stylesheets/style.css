@@ -94,6 +94,33 @@ body::-webkit-scrollbar {
   animation: parpadeo 1s infinite; /* Animación de parpadeo infinito durante 2 segundos */
 }
 
+.cara-frontal,
+.cara-trasera {
+  /* width: 100%; */
+  /* height: 100%; */
+  /* position: absolute; */
+    backface-visibility: hidden;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+}
+
+.tarjeta {
+  /* perspective: 1000px; */
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+
+.cara-trasera {
+  transform: rotateY(180deg);
+}
+
+.tarjetahover {
+  transform: rotateY(180deg);
+}
+
+
 /* El switch */
 .checkbox-wrapper-2 .ikxBAC {
   appearance: none;
