@@ -37,14 +37,14 @@
     <div style="height:<%=(0.1*inner)%>px">
 
     </div>
-    <div id="mainRow" data-id="<%=alto%>,<%=ancho%>" class="row">
-      <div class="col-2 offset-1 paynesgray p-4 rounded-4 my-auto">
-        <div class="row cambridgeblue p-2 rounded-3 my-3">
+    <div id="mainRow" data-id="<%=alto%>,<%=ancho%>" class="row justify-content-center">
+      <div class="col-2  paynesgray p-4 rounded-4 my-auto">
+        <div class="row cambridgeblue p-1 rounded-3 my-3">
           <div class="col d-flex justify-content-center">
             <strong>Personalizable</strong>
           </div>
         </div>
-        <div id="divinicio" class="row cambridgeblue p-2 rounded-3 my-3">
+        <div id="divinicio" class="row cambridgeblue p-1 rounded-3 my-3">
           <div class="col">
             <div id="inicio" draggable=true class="cuadradoDrag inicio"></div>
           </div>
@@ -52,7 +52,7 @@
             <span class="text-center">Inicio</span>
           </div>
         </div>
-        <div id="divprohibido" class="row cambridgeblue p-2 rounded-3 my-3">
+        <div id="divprohibido" class="row cambridgeblue p-1 rounded-3 my-3">
           <div class="col">
             <div id="prohibido" draggable=true class="cuadradoDrag prohibido"></div>
           </div>
@@ -60,7 +60,7 @@
             <span class="text-center">Obstaculo</span>
           </div>
         </div>
-        <div id="divfin" class="row cambridgeblue p-2 rounded-3 my-3">
+        <div id="divfin" class="row cambridgeblue p-1 rounded-3 my-3">
           <div class="col">
             <div id="fin" draggable=true class="cuadradoDrag fin"></div>
           </div>
@@ -68,7 +68,7 @@
             <span class="text-center">Fin</span>
           </div>
         </div>
-        <div id="divborrar" class="row cambridgeblue p-2 rounded-3 my-3">
+        <div id="divborrar" class="row cambridgeblue p-1 rounded-3 my-3">
           <div class="col">
             <div id="borrar" draggable=true class="cuadradoDrag borrar"></div>
           </div>
@@ -76,12 +76,28 @@
             <span class="text-center">Borrar</span>
           </div>
         </div>
-        <div class="row cambridgeblue p-2 rounded-3 my-3">
+        <div id="divpenalizacion" class="row cambridgeblue p-1 rounded-3 my-3">
+          <div class="col">
+            <div id="borrar" draggable=true class="cuadradoDrag penalizacion"></div>
+          </div>
+          <div class="col align-items-center d-flex">
+            <span class="text-center">Penalización</span>
+          </div>
+        </div>
+        <div id="divparada" class="row cambridgeblue p-1 rounded-3 my-3">
+          <div class="col">
+            <div id="borrar" draggable=true class="cuadradoDrag parada"></div>
+          </div>
+          <div class="col align-items-center d-flex">
+            <span class="text-center">Paradas</span>
+          </div>
+        </div>
+        <div class="row cambridgeblue p-1 rounded-3 my-3">
           <div class="col d-flex justify-content-center">
             <strong>Información</strong>
           </div>
         </div>
-        <div class="row cambridgeblue p-2 rounded-3 my-3">
+        <div class="row cambridgeblue p-1 rounded-3 my-3">
           <div class="col">
             <div id="fin" draggable=true class="cuadradoDrag abierta"></div>
           </div>
@@ -93,7 +109,7 @@
             <input id="checkAbierta" type="checkbox" class="sc-gJwTLC ikxBAC" checked>
           </div>
         </div>
-        <div class="row cambridgeblue p-2 rounded-3 my-3">
+        <div class="row cambridgeblue p-1 rounded-3 my-3">
           <div class="col">
             <div id="fin" draggable=true class="cuadradoDrag recorrido"></div>
           </div>
@@ -105,7 +121,7 @@
             <input id="checkCerrada" type="checkbox" class="sc-gJwTLC ikxBAC" checked>
           </div>
         </div>
-        <div class="row cambridgeblue p-2 rounded-3 my-3">
+        <div class="row cambridgeblue p-1 rounded-3 my-3">
           <div class="col">
             <div id="fin" draggable=true class="cuadradoDrag final"></div>
           </div>
@@ -123,27 +139,28 @@
           </div>
         <% } %>
       </div>
-      <div class="col-3 cambridgeblue rounded-4 p-4 justify-content-center position-relative ">
-       
-        <div class="row h-25">
-          <h1>Información del paso actual</h1>
-          
-          <div id="divInfo">
+      <div class="col-4 cambridgeblue rounded-4 p-4 justify-content-center position-relative ">
+        
+        <div class="row">
+          <button id="empezar" type="button" class="col m-2 btn btn-primary ">Siguiente</button>
+          <div class=" col m-2 btn btn-warning">
+            <div class="row text-center">
+              <input id="tiempo" type="number" value="200" min="1" max="999" class="rounded col ms-2 me-0" style="height:1.5em; max-width:4.5em;">
+              <span id="omitir" class="col ">Omitir</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <button id="limpiar" type="button" class="col m-2 btn btn-secondary ">Limpiar</button>
+        </div>
+        <button onclick="window.location.href='/'" type="button" class="position-absolute bottom-0 end-0 float-end m-2 btn btn-success ">Volver</button>
+        <div class="row">
+          <h1>Información del paso</h1>
+          <div id="divInfo" class="apricot rounded-4">
             <!-- <p id="informacion">\(f(x)=\sqrt{(a - b)^2 + (c - d)^2}\)</p> -->
               <!-- <p>La raíz cuadrada de \( x \) es: \( \sqrt{x} \)</p> -->
           </div>
         </div>
-        <div class="row  ">
-          <button id="empezar" type="button" class="col m-2 btn btn-primary ">Siguiente</button>
-          <button id="omitir" type="button" class="  col  m-2 btn btn-warning ">Omitir</button>
-        </div>
-        <div class="row  ">
-          <button id="limpiar" type="button" class=" col m-2 btn btn-secondary ">Limpiar</button>
-            
-        </div>
-        <input id="tiempo" type="number" value="200" min="1" class="rounded " >
-        <button onclick="window.location.href='/'" type="button" class="position-absolute bottom-0 end-0 float-end m-2 btn btn-success ">Volver</button>
-
       </div>
     </div>
     <div id="dev">
@@ -155,8 +172,8 @@
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
-          <strong class="me-auto">Bootstrap</strong>
-          <small>Just now!</small>
+          <strong class="me-auto">Atención</strong>
+          <small>Justo ahora!</small>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div id="toastMessage" class="toast-body">

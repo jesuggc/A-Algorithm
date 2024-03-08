@@ -7,13 +7,13 @@ The main goal of this project was to learn how the A* Algorithm works on a basic
 
 # Table of Contents
 
-1. [How the A* algorithm works](#How the A* algorithm  works)
+1. [How the A* algorithm works](#how-the-a*-algorithm-works)
 2. [User Guide](#user-guide)
 3. [Features](#features)
 4. [Roadmap](#roadmap)
 5. [Optimizations](#optimizations)
 6. [License](#license)
-7. [Design decissions](#Design-decissions)
+7. [Design decissions](#design-decissions)
 8. [Lessons Learned](#lessons-learned)
 
     
@@ -37,7 +37,6 @@ In A* without link reorganization, the algorithm follows a straightforward appro
 
 ## User guide
 
-*añadir cuadros de colores*
 
 The first view will prompt the user to determine the grid's size, using a range input to choose the width and height values.
 
@@ -45,9 +44,9 @@ After clicking on the submit button "Enviar," it will redirect to the actual sim
 
 | Color             | Box                                                                |
 | ----------------- | ------------------------------------------------------------------ |
-| ![#0a192f](https://via.placeholder.com/10/0a192f?text=+)  | Starting Point |
-| ![#0a192f](https://via.placeholder.com/10/0a192f?text=+)  | Finishing Point |
-| ![#0a192f](https://via.placeholder.com/10/0a192f?text=+)  | Obstacles |
+| ![#008000](https://via.placeholder.com/10/008000?text=+)  | Starting Point |
+| ![#ff0000](https://via.placeholder.com/10/ff0000?text=+)  | Finishing Point |
+| ![#000000](https://via.placeholder.com/10/000000?text=+)  | Obstacles |
 
 Once the design is complete, users have two options for traversing the route:
 By clicking on:
@@ -57,13 +56,13 @@ By clicking on:
 During the exploration, the two list will be represented by colouring the selected cells:
 | Color             | Box                                                                |
 | ----------------- | ------------------------------------------------------------------ |
-| ![#0a192f](https://via.placeholder.com/10/0a192f?text=+)  | Open List |
-| ![#0a192f](https://via.placeholder.com/10/0a192f?text=+)  | Closed List |
+| ![#ffa500](https://via.placeholder.com/10/ffa500?text=+)  | Open List |
+| ![#add8e6](https://via.placeholder.com/10/add8e6?text=+)  | Closed List |
 
 Once the path is found, the cells will change colours to show the result:
 | Color             | Box                                                                |
 | ----------------- | ------------------------------------------------------------------ |
-| ![#0a192f](https://via.placeholder.com/10/0a192f?text=+)  | Final Path |
+| ![#80080](https://via.placeholder.com/10/80080?text=+)  | Final Path |
 
 
 
@@ -95,7 +94,7 @@ What optimizations did you make in your code? E.g. refactors, performance improv
 
 
 ## License
-*añadir licencia*
+
 [MIT](https://github.com/jesuggc/A-Algorithm/blob/main/license.txt)
 
 ## Design decissions

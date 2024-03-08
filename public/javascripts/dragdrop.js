@@ -41,13 +41,6 @@ function gestionarClick(tipo) {
 
 function agregarInicioOFin(casilla, posicion) {
   casilla.removeClass("inicio fin prohibido").addClass(posicion);
-  // if (posicion === "inicio") {
-  //   inicio = { x: parseInt(casilla.attr('id').split(',')[0]), y: parseInt(casilla.attr('id').split(',')[1]) };
-  //   actual = inicio;
-  //   abierta.push(inicio);
-  // } else if (posicion === "fin") {
-  //   final = { x: parseInt(casilla.attr('id').split(',')[0]), y: parseInt(casilla.attr('id').split(',')[1]) };
-  // }
 }
 
 let drageado = null 
@@ -81,7 +74,7 @@ function expandirSucesores(actual) {
   let nuevaLista=[]
   lista.forEach(ele => {
     let casilla = $("#"+ele.x+"\\,"+ele.y)
-    if(!casilla.hasClass("prohibido") && !casilla.hasClass("recorrido")) {
+    if(!casilla.hasClass("prohibido") && !casilla.hasClass("recorrido") &&  !casilla.hasClass("inicio")) {
       ele.padre = {x: actual.x, y: actual.y}
       nuevaLista.push(ele)
     }
@@ -89,8 +82,8 @@ function expandirSucesores(actual) {
   return nuevaLista;
 }
 
-function calcularReal(x,y) {
-  return calcularDistancias(actual.x,actual.y,x,y)
+function calcularReal(x,y,actualx,actualy) {
+  return calcularDistancias(actualx,actualy,x,y)
 }
 
 function calcularImaginaria(x,y) {
@@ -101,8 +94,8 @@ function calcularDistancias(x1,y1,x2,y2) {
   return (Math.sqrt((x2-x1)**2 + (y2-y1)**2))
 }
 
-function calcularTotal(x,y) {
-  return calcularReal(x,y) + calcularImaginaria(x,y)
+function calcularTotal(x,y,actualx,actualy) {
+  return calcularReal(x,y,actualx,actualy) + calcularImaginaria(x,y)
 }
 
 function posMinimo(lista) {
@@ -121,23 +114,6 @@ function createToast(mensaje) {
   $("#toastMessage").empty().append(mensaje)
   toastBootstrap.show()
 }
-
-// function mostrarInfo(opciones,minimo) {
-//   $("#informacion").empty();
-//   opciones.forEach(ele => {
-//     let expression = "\\sqrt{x}";
-//     $("#informacion").append("<p>La raíz cuadrada de " + expression + " es: \( " + expression + " \)</p>");
-//   });
-//   // Renderizar expresiones LaTeX después de agregarlas al DOM
-//   MathJax.typeset(["#informacion"]);
-// }
-// function imprimeLista(lista){
-//   let finalString = ""
-//   lista.forEach(ele => {
-//     finalString += "(" + ele.x + "," + ele.y + ")"
-//   })
-//   return finalString
-// }
 
 function generarRecorrido() {
   let nodo = cerrada[cerrada.length-1]
@@ -161,9 +137,6 @@ function actualizarNodo(nodo, nuevo) {
   nodo.padre = {x:actual.x,y:actual.y}
 }
 
-// $("#devAbierta").empty().append("Lista abierta: "+ imprimeLista(abierta))
-// $("#devCerrada").empty().append("Lista cerrada: "+ imprimeLista(cerrada))
-
 function pintarAbierta(nodo) {
   let casilla = $("#"+nodo.x+"\\,"+nodo.y)
   if(!casilla.hasClass("prohibido") && !casilla.hasClass("inicio") && !casilla.hasClass("fin") && !casilla.hasClass("recorrido")) casilla.addClass("abierta")
@@ -185,22 +158,22 @@ function core() {
   // Eliminar el nodo de abierta que tenga un valor mínimo de f, e introducirlo en CERRADA
   eliminarAbierta()
   cerrada.push(actual)
-  if($("#checkCerrada").prop('checked'))pintarCerrada(actual)
+  if($("#checkCerrada").prop('checked')) pintarCerrada(actual)
   
   if((actual.x === final.x && actual.y === final.y)) return {fallo: false, lista: generarRecorrido()} // Si el nodo actual es meta, devolver el camino solucion
  
   let sucesores = expandirSucesores(actual)  // Sino, expandir sus sucesores
-  
+  // mostrarSucesores(sucesores)
   sucesores.forEach(ele => { // Por cada sucesor: crear un puntero a su padre
     let existe = abierta.findIndex(elemento => elemento.x === ele.x && elemento.y === ele.y)
-    ele.total = calcularTotal(ele.x,ele.y) // Calcular f
-
+    ele.total = calcularTotal(ele.x,ele.y,actual.x,actual.y) // Calcular f
     if(existe === -1) abierta.push(ele)
     else if (ele.total < abierta[existe].total) actualizarNodo(abierta[existe], ele) // Comprobar si estaba en abierta y actualizar nodo si g es menor  
     
     if($("#checkAbierta").prop('checked')) pintarAbierta(ele)
   })
-
+  mostrarSucesores(sucesores)
+  mostrarElegido()
   return {fallo:null,lista:null}
 }
 
@@ -210,7 +183,8 @@ function gestionarError() {
 }
 
 function gestionarPaso() {
-  $("#devPaso").empty().append("Paso: ", (paso)++)
+  // $("#devPaso").empty().append("Paso: ", (paso)++)
+    paso++
     let feedback = core()
     fallo = feedback.fallo
     sol = feedback.lista
@@ -239,7 +213,6 @@ function ejecutarPaso(porPasos) {
     setTimeout(() => ejecutarPaso(false), $("#tiempo").val());
   }
 }
-
 function comprobarErrores(paso) {
   if(!$(".cuadrado").hasClass("inicio")) createToast("No has creado el inicio")
   else if ($('.inicio').length > 2) createToast("Solo debe haber una casilla de inicio")
@@ -270,5 +243,78 @@ $("#limpiar").on("click", function(){
   fallo = false
   $("#divinicio, #divfin, #divprohibido, #divborrar").removeClass("seleccionado").css("transition","transform 0.5s ease-in-out")
   $("#empezar").prop("disabled", false);
+  $("#tiempo").val("200");
+  $("#divInfo").empty()
+  $("#divInfo").removeClass("p-2")
 })
 
+function mostrarSucesores(sucesores) {
+  $("#divInfo").empty()
+  
+  $("#divInfo").append(`<p class="mb-0"><strong>Sucesores</strong></p>`)
+
+  sucesores.forEach(ele => {
+    crearParrafo(ele,actual)
+  })
+  
+  if(sucesores.length === 0) $("#divInfo").append(`<p class="mb-0">No hay sucesores</p>`)
+  
+  $("#divInfo").addClass("p-2") 
+}
+
+function mostrarElegido() {
+
+  $("#divInfo").append(`<p class="mb-0"><strong>Nodo elegido</strong></p>`)
+  
+  let posMin = posMinimo(abierta)
+  let minimo = abierta[posMin]
+  console.log(minimo.padre)
+  crearParrafo(minimo,minimo.padre)
+}
+
+
+function crearParrafo(ele, actual) {
+  var nuevoParrafo = $('<p>', {
+    text: `\\(      f(${ele.x},${ele.y})=g(${ele.x},${ele.y}) + h(${ele.x},${ele.y}) = \\sqrt{${(actual.x - ele.x)**2}+${(actual.y - ele.y)**2}} + \\sqrt{${(final.x - ele.x)**2}+${(final.y - ele.y)**2}} = \\sqrt{${(actual.x - ele.x)**2 + (actual.y - ele.y)**2}} + \\sqrt{${(final.x - ele.x)**2 + (final.y - ele.y)**2}} = ${calcularTotal(ele.x,ele.y,actual.x,actual.y).toFixed(3)}  \\) `,
+    style: 'font-size:0.8em',
+    class: "rounded-1 ms-2"
+  });
+
+  $('#divInfo').append(nuevoParrafo);
+
+  nuevoParrafo.on("mouseenter", function() {
+    var colorDeFondo = $(`#${ele.x}\\,${ele.y}`).css('background-color');
+    $(':root').css('--colorEnUso', colorDeFondo);
+    $(`#${ele.x}\\,${ele.y}`).addClass("parpadear")
+    $(this).addClass("seasalt")
+  })
+  nuevoParrafo.on("mouseleave ", function() {
+    $(`#${ele.x}\\,${ele.y}`).removeClass("parpadear")
+    $(this).removeClass("seasalt")
+  })
+  
+  MathJax.typeset(["#divInfo"]);
+}
+
+$(document).keydown(function(e) {
+  // Verificar si la tecla presionada es la "E"
+  if (e.key === '1') {
+     $("#divinicio").click()
+  } else if(e.key === '2') {
+    $("#divprohibido").click()
+  } else if(e.key === '3'){
+    $("#divfin").click()
+  } else if(e.key === '4'){
+    $("#divborrar").click()
+  } else if(e.key === ' '){
+    $("#2\\,2").addClass("inicio")
+    $("#7\\,8").addClass("fin")
+    inicio = {x:2,y:2}
+    final = {x:7,y:8}
+    $("#empezar").click()
+  } else if (e.key === 'r' && e.ctrlKey) {
+    e.preventDefault()
+    window.location.reload(true);
+  } 
+
+});
