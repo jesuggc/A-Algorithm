@@ -43,15 +43,35 @@
     </div>
     <div id="mainRow" data-id="<%=alto%>,<%=ancho%>" class="row justify-content-center ">
       <div class="col-2 p-4 rounded-4 my-auto tarjeta paynesgray">
-          <div class=" cara-trasera d-none">
-            <p>Cara trasera</p>
-            <div class=" col m-2 btn btn-warning" style="cursor: default;">
-              <div class="row text-center">
-                <input type="number" value="200" min="1" max="999" class="rounded col ms-2 me-0 infoinput" style="height:1.5em; max-width:4.5em;" readonly>
-                <span class="col">Omitir</span>
-              </div>
+        <div class=" cara-trasera d-none text-white">
+          <p>
+            <div class=" cambridgeblue p-1 rounded-3 text-black d-flex justify-content-center">
+                <strong>Personalizable</strong>
             </div>
-          </div>
+            En esta sección podrá elegir el tipo de celda, ya sea arrastrando a la cuadricula, seleccionando o 
+            clickando en las teclas: 1,2,3,4 respectivamente, para diseñar el laberinto
+          </p>
+          <p>
+            <div class=" cambridgeblue p-1 rounded-3 text-black d-flex justify-content-center">
+              <strong>Información</strong>
+            </div>
+            Esta sección sirve de leyenda y permite controlar la informacion representada durante la simulación 
+            al interacturar con <span class="checkbox-wrapper-2"><input type="checkbox" class="sc-gJwTLC ikxBAC " checked ></span>
+            
+          </p>
+          <p>Para ejecutar la simulación use los botones:
+              <p>
+                <span><button type="button" class="btn btn-primary " style="cursor: default;">Siguiente</button>
+                <span class="  text-center btn btn-warning" style="cursor: default;">
+                  <input type="number" value="200"  class="rounded col ms-2 me-0 infoinput" style="height:1.5em; max-width:4.5em;" readonly>
+                  <span class="col">Omitir</span>
+                </span>
+              </span>
+              </p>
+              <p> Puede introducir el tiempo en ms entre paso y paso al omitir </p>
+          </p>
+
+        </div>
           <div class="  paynesgray  cara-frontal">
             <div class="row cambridgeblue p-1 rounded-3 my-3">
               <div class="col d-flex justify-content-center">
