@@ -110,15 +110,17 @@ body::-webkit-scrollbar {
   /* perspective: 1000px; */
   transform-style: preserve-3d;
   transition: transform 1s;
+  
 }
 
 .cara-trasera {
   transform: rotateY(180deg);
-  
 }
 
 .scrollableDiv{
   overflow-y: scroll;
+  scrollbar-width: none;
+  
 }
 .tarjetahover {
   transform: rotateY(180deg);

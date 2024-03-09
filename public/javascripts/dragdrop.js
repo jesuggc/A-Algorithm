@@ -325,10 +325,7 @@ $("#ayuda").on("click", function() {
   $(".cara-frontal").toggleClass("d-none")
 })
 
-document.addEventListener("DOMContentLoaded", function() {
-  // Obtener la altura de cara-frontal
-  var alturaCaraFrontal = document.querySelector('.cara-frontal').clientHeight;
-  
-  // Aplicar la altura al div scrollable-div
-  document.querySelector('.cara-trasera').style.height = alturaCaraFrontal + 'px';
+$(document).ready(function() {
+  var alturaCaraFrontal = $('.tarjeta').height();
+  $('.cara-trasera').height(alturaCaraFrontal);
 });
