@@ -91,23 +91,15 @@ body::-webkit-scrollbar {
 }
 
 .parpadear {
-  animation: parpadeo 1s infinite; /* Animación de parpadeo infinito durante 2 segundos */
+  animation: parpadeo 1s infinite; 
 }
 
 .cara-frontal,
 .cara-trasera {
-  /* width: 100%; */
-  /* height: 100%; */
-  /* position: absolute; */
     backface-visibility: hidden;
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
 }
 
 .tarjeta {
-  /* perspective: 1000px; */
   transform-style: preserve-3d;
   transition: transform 1s;
   
@@ -126,6 +118,14 @@ body::-webkit-scrollbar {
   transform: rotateY(180deg);
 }
 
+.infoinput[type="number"]::-webkit-inner-spin-button, .infoinput[type="number"]::-webkit-outer-spin-button  {
+  -webkit-appearance: none;
+  margin: 0;
+}
+div.cara-trasera p {
+  margin-bottom: 0.5em;
+  margin-top:    0.5em;
+}
 
 /* El switch */
 .checkbox-wrapper-2 .ikxBAC {

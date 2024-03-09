@@ -76,6 +76,7 @@ function expandirSucesores(actual) {
     let casilla = $("#"+ele.x+"\\,"+ele.y)
     if(!casilla.hasClass("prohibido") && !casilla.hasClass("recorrido") &&  !casilla.hasClass("inicio")) {
       ele.padre = {x: actual.x, y: actual.y}
+      // ele.penalizacion
       nuevaLista.push(ele)
     }
   })
@@ -95,11 +96,12 @@ function calcularDistancias(x1,y1,x2,y2) {
 }
 
 function calcularTotal(x,y,actualx,actualy) {
-  return calcularReal(x,y,actualx,actualy) + calcularImaginaria(x,y)
+  return calcularReal(x,y,actualx,actualy) + calcularImaginaria(x,y) /* + penalizacion ? penalizacion : 0 */
 }
 
 function posMinimo(lista) {
-  let minimo = lista[0].total
+
+  let minimo = lista[0].total //Aqui peta 
   let pos = 0
   lista.forEach((ele,indice) => {
       if(ele.total < minimo) {
@@ -178,7 +180,7 @@ function core() {
 }
 
 function gestionarError() {
-  $("#devPrueba").append("Camino sin salida")
+  $("#divInfo").empty().append("Camino sin salida")
   $("#empezar").prop("disabled", true);
 }
 
@@ -202,6 +204,7 @@ function ejecutarPaso(porPasos) {
 
   inicio = { x: parseInt(ini.attr('id').split(',')[0]), y: parseInt(ini.attr('id').split(',')[1]) };
   final = { x: parseInt(fin.attr('id').split(',')[0]), y: parseInt(fin.attr('id').split(',')[1]) };
+  
   if(paso === 0) {
     actual = inicio
     abierta.push(inicio);
@@ -229,6 +232,7 @@ $("#omitir").on("click", function() {
 })
 
 $("#limpiar").on("click", function(){
+  //Añadir lo necesario de penalizacion
   $(".cuadrado").removeClass(["prohibido","inicio","fin","recorrido","abierta","final"])
   abierta = []
   cerrada = []
@@ -265,10 +269,11 @@ function mostrarSucesores(sucesores) {
 function mostrarElegido() {
 
   $("#divInfo").append(`<p class="mb-0"><strong>Nodo elegido</strong></p>`)
-  
   let posMin = posMinimo(abierta)
   let minimo = abierta[posMin]
-  console.log(minimo.padre)
+  $("#divInfo").append("Posmin",posMin)
+  $("#divInfo").append("Minimo:",minimo)
+  // if(abierta.length === 0) gestionarError()
   crearParrafo(minimo,minimo.padre)
 }
 
@@ -307,10 +312,6 @@ $(document).keydown(function(e) {
   } else if(e.key === '4'){
     $("#divborrar").click()
   } else if(e.key === ' '){
-    $("#2\\,2").addClass("inicio")
-    $("#7\\,8").addClass("fin")
-    inicio = {x:2,y:2}
-    final = {x:7,y:8}
     $("#empezar").click()
   } else if (e.key === 'r' && e.ctrlKey) {
     e.preventDefault()
