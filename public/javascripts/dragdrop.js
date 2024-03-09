@@ -152,6 +152,10 @@ function pintarCerrada(nodo) {
 function pintarFinal(nodo) {
   let casilla = $("#"+nodo.x+"\\,"+nodo.y)
   if(!casilla.hasClass("fin") && !casilla.hasClass("inicio")) casilla.addClass("final").removeClass("abierta cerrada recorrido")
+  if(casilla.hasClass("fin")) $("#divInfo").empty().append("<p><strong>Recorrido final</strong></p>")
+  $("#divInfo").append(` \\(      f(${nodo.x},${nodo.y})  \\)`)
+  if(!casilla.hasClass("inicio")) $("#divInfo").append(` \\( => \\)`)
+  MathJax.typeset(["#divInfo"]);
 }
 
 function core() {
@@ -297,7 +301,6 @@ function crearParrafo(ele, actual) {
     $(`#${ele.x}\\,${ele.y}`).removeClass("parpadear")
     $(this).removeClass("seasalt")
   })
-  
   MathJax.typeset(["#divInfo"]);
 }
 
