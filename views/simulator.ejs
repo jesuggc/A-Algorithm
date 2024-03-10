@@ -191,8 +191,8 @@
         
         <div class="row">
           <button id="empezar" type="button" class="col m-2 btn btn-primary ">Siguiente</button>
-          <div class=" col m-2 btn btn-warning">
-            <div class="row text-center">
+          <div id="divomitir" class=" col m-2 btn btn-warning">
+            <div  class="row text-center">
               <input id="tiempo" type="number" value="200" min="1" max="999" class="rounded col ms-2 me-0" style="height:1.5em; max-width:4.5em;">
               <span id="omitir" class="col ">Omitir</span>
             </div>
@@ -213,6 +213,7 @@
       </div>
     </div>
 
+    <!-- TOAST -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
@@ -222,6 +223,22 @@
         </div>
         <div id="toastMessage" class="toast-body">
           Hello, world! This is a toast message.
+        </div>
+      </div>
+    </div>
+    <!-- MODAL -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Fallo</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" id="reinicia" class="btn btn-primary">Limpiar</button>
+          </div>
         </div>
       </div>
     </div>
