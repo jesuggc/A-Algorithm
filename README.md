@@ -1,7 +1,7 @@
 # A Star Algorithm
 A web project simulator for A* algorithm. Using just Vanilla JS 
 
-![GIF Demo](https://github.com/jesuggc/A-Algorithm/blob/conPenalizacion/public/images/demo.gif)
+![GIF Demo](https://github.com/jesuggc/A-Algorithm/blob/conPenalizacion/public/images/demo.gif?raw=true)
 
 
 
@@ -89,7 +89,7 @@ Decided to keep the penalty cells gray even when added to the open list to visua
 # Algoritmo A Estrella
 Un proyecto de simulación para el algoritmo A*. Usando solo JS Vanilla
 
-![GIF Demo](https://github.com/jesuggc/A-Algorithm/blob/conPenalizacion/public/images/demo.gif)
+![GIF Demo](https://github.com/jesuggc/A-Algorithm/blob/conPenalizacion/public/images/demo.gif?raw=true)
 
 
 El objetivo principal de este proyecto es aprender como funciona el algoritmo A*, a un nivel básico, en menos de un mes. Por tanto, el algoritmo puede no elegir siempre el mejor camino desde el punto A al B, pues no realizamos reorganización de enlaces.
