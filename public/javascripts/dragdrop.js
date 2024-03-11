@@ -8,27 +8,31 @@ $("#borrar").on("dragstart", () => drageado = "borrar")
 $("#divborrar").on("click", () => gestionarClick("borrar"));
 $("#penalizar").on("dragstart", () => drageado = "penalizar")
 $("#divpenalizar").on("click", () => gestionarClick("penalizar"));
+$("#parada").on("dragstart", () => drageado = "parada")
+$("#divparada").on("click", () => gestionarClick("parada"));
 
 $(".cuadrado").on("dragover", (event) => event.preventDefault())
 
 
 $(".cuadrado").on("drop", function() {
   if (drageado === "inicio" || drageado === "fin") agregarInicioOFin($(this), drageado);
-  else if (drageado === "prohibido") $(this).addClass("prohibido").removeClass("inicio penalizar fin");
-  else if (drageado === "penalizar") $(this).addClass("penalizar").removeClass("inicio prohibido fin")
-  else if (drageado === "borrar") $(this).removeClass("inicio prohibido fin penalizar")
+  else if (drageado === "prohibido") $(this).addClass("prohibido").removeClass("inicio penalizar parada fin");
+  else if (drageado === "penalizar") $(this).addClass("penalizar").removeClass("inicio prohibido parada fin")
+  else if (drageado === "parada") $(this).addClass("parada").removeClass("inicio penalizar prohibido fin")
+  else if (drageado === "borrar") $(this).removeClass("inicio prohibido fin penalizar parada")
   drageado = null;
 });
 
 $(".cuadrado").on("click", function() {
   if (seleccionado === "inicio" || seleccionado === "fin") agregarInicioOFin($(this), seleccionado);
-  else if (seleccionado === "prohibido") $(this).addClass("prohibido").removeClass("inicio penalizar fin");
-  else if (seleccionado === "penalizar") $(this).addClass("penalizar").removeClass("inicio prohibido fin");
+  else if (seleccionado === "prohibido") $(this).addClass("prohibido").removeClass("inicio penalizar parada fin");
+  else if (seleccionado === "penalizar") $(this).addClass("penalizar").removeClass("inicio prohibido parada fin");
+  else if (seleccionado === "parada") $(this).addClass("parada").removeClass("inicio penalizar prohibido fin");
   else if (seleccionado === "borrar") borrarLogico($(this));
 });
 
 function borrarLogico(casilla){
-  casilla.removeClass("inicio prohibido fin penalizar")
+  casilla.removeClass("inicio prohibido fin penalizar parada")
   let pos = abierta.findIndex(elemento => elemento.x ===  parseInt(casilla.attr('id').split(',')[0]) && elemento.y ===  parseInt(casilla.attr('id').split(',')[1]))
   if(pos !== -1) abierta.splice(pos,1);
 }
@@ -39,12 +43,12 @@ function gestionarClick(tipo) {
   } else {
     seleccionado = tipo;
     $("#div"+`${tipo}`).addClass("seleccionado");
-    $("#divinicio, #divprohibido, #divfin, #divborrar, #divpenalizar").not("#div"+`${tipo}`).removeClass("seleccionado").css("transition","transform 0.5s ease-in-out");
+    $("#divinicio, #divprohibido, #divfin, #divborrar, #divpenalizar, #divparada").not("#div"+`${tipo}`).removeClass("seleccionado").css("transition","transform 0.5s ease-in-out");
   }
 }
 
 function agregarInicioOFin(casilla, posicion) {
-  casilla.removeClass("inicio fin prohibido penalizar").addClass(posicion);
+  casilla.removeClass("inicio fin prohibido penalizar parada").addClass(posicion);
 }
 
 $(document).keydown(function(e) {
@@ -60,8 +64,10 @@ $(document).keydown(function(e) {
   } else if(e.key === ' '){
     $("#2\\,2").addClass("inicio")
     $("#7\\,8").addClass("fin")
+    $("#0\\,3").addClass("parada")
     inicio = {x:2,y:2}
     final = {x:7,y:8}
+    // stops = [{x:0, y:3}]
     $("#empezar").click()
   } else if (e.key === 'r' && e.ctrlKey) {
     e.preventDefault()
@@ -82,6 +88,7 @@ let pasoFinal = 0
 let abierta = []
 let cerrada = []
 let sol = []
+let stops = []
 let alto = parseInt($("#mainRow").attr("data-id").split(",")[0])
 let ancho = parseInt($("#mainRow").attr("data-id").split(",")[1])
 const toastLiveExample = $("#liveToast")
@@ -91,6 +98,7 @@ const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
 // BOTONES
 //boton: siguiente
 $("#empezar").on("click", function() {
+ 
   comprobarErrores(true)
 })
 //boton: omitir
@@ -99,10 +107,11 @@ $("#divomitir #omitir").on("click", function() {
 })
 //boton: limpiar
 $("#limpiar").on("click", function(){
-  $(".cuadrado").removeClass(["prohibido","inicio","fin","recorrido","abierta","final", "penalizar"])
+  $(".cuadrado").removeClass(["prohibido","inicio","fin","recorrido","abierta","final", "penalizar", "parada"])
   abierta = []
   cerrada = []
   sol = []
+  stops = []
   inicio = null
   final = null
   actual = null
@@ -113,7 +122,7 @@ $("#limpiar").on("click", function(){
   fallo = false
   encontrado=false
   terminar=false
-  $("#divinicio, #divfin, #divprohibido, #divborrar, #divpenalizar").removeClass("seleccionado").css("transition","transform 0.5s ease-in-out")
+  $("#divinicio, #divfin, #divprohibido, #divborrar, #divpenalizar, #divparada").removeClass("seleccionado").css("transition","transform 0.5s ease-in-out")
   $("#empezar").prop("disabled", false);
   $("#divomitir").css("pointer-events","auto")
   $("#divomitir").css("opacity",1)
@@ -156,11 +165,19 @@ $("#reinicia").on("click", function(){
   $('#exampleModal').modal('hide');
 })
 
+let i=0
 //EJECUCION
 //Si click en botones de ejecucion y al comprobar errores no hay ninguno, inicializa ini y fin y ejecuta segun si es por pasos o no
 function ejecutarPaso(porPasos) {
   let ini = $($(".inicio")[1])
   let fin = $($(".fin")[1])
+
+  if ($(".cuadrado.parada")[i] && !stops.includes($(".cuadrado.parada")[i])) {
+    console.log("incluyo la parada a stops:", stops)
+    let divStop=$($(".cuadrado.parada")[i])
+      stops.push({ x: parseInt(divStop.attr('id').split(',')[0]), y: parseInt(divStop.attr('id').split(',')[1]) });
+      i++
+  }
 
   inicio = { x: parseInt(ini.attr('id').split(',')[0]), y: parseInt(ini.attr('id').split(',')[1]) };
   final = { x: parseInt(fin.attr('id').split(',')[0]), y: parseInt(fin.attr('id').split(',')[1]) };
@@ -179,12 +196,9 @@ function ejecutarPaso(porPasos) {
 }
 //Funciona como condicion del bucle para ver si para o continua
 function ejecutar() {
-  
-  console.log(sol.length,pasoFinal,paso,terminar)
   if(fallo === true) gestionarError()
   else if (actual.x !== final.x || actual.y !== final.y) gestionarPaso()
   else if (pasoFinal < sol.length - 1) {
-    
     pintarFinal(sol[pasoFinal++]);
     if (pasoFinal === sol.length -1 ) {
       terminar = true;
@@ -195,8 +209,6 @@ function ejecutar() {
       createModal("Camino encontrado")
     }
   }
-  else console.log("soy yui?")
-  
 }
 //Si en ejecutar se encuentra algun error
 function gestionarError() {
@@ -223,7 +235,7 @@ function core() {
   cerrada.push(actual)
   if($("#checkCerrada").prop('checked')) pintarCerrada(actual)
   
-  if((actual.x === final.x && actual.y === final.y)) return {fallo: false, lista: generarRecorrido()} // Si el nodo actual es meta, devolver el camino solucion
+  if((actual.x === final.x && actual.y === final.y) ) return {fallo: false, lista: generarRecorrido()} // Si el nodo actual es meta, devolver el camino solucion
  
   let sucesores = expandirSucesores(actual)  // Sino, expandir sus sucesores
   if(sucesores.length===0) return {fallo:true}
@@ -243,6 +255,7 @@ function core() {
 function eliminarAbierta() {
   let posMin = posMinimo(abierta)
   let minimo = abierta[posMin]
+  console.log("aqui actualizo actual=minimo, abierta: ", abierta, "minimo: ", minimo)
   actual = minimo
   abierta.splice(posMin,1)
 }
