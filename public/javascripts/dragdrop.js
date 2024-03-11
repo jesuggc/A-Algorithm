@@ -56,6 +56,8 @@ $(document).keydown(function(e) {
   } else if(e.key === '3'){
     $("#divfin").click()
   } else if(e.key === '4'){
+    $("#divpenalizar").click()
+  } else if(e.key === '5'){
     $("#divborrar").click()
   } else if(e.key === ' '){
     $("#2\\,2").addClass("inicio")
@@ -99,7 +101,7 @@ $("#divomitir #omitir").on("click", function() {
 })
 //boton: limpiar
 $("#limpiar").on("click", function(){
-  $(".cuadrado").removeClass(["prohibido","inicio","fin","recorrido","abierta","final", "penalizar"])
+  $(".cuadrado").removeClass(["prohibido","inicio","fin","recorrido","abierta","final", "penalizar", "parpadear"])
   abierta = []
   cerrada = []
   sol = []

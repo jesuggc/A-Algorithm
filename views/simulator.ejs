@@ -48,8 +48,12 @@
               <div class=" cambridgeblue p-1 rounded-3 text-black d-flex justify-content-center">
                   <strong>Personalizable</strong>
               </div>
-              En esta sección podrá elegir el tipo de celda, ya sea arrastrando a la cuadricula, seleccionando o 
-              en las teclas: 1,2,3,4 respectivamente, para diseñar el laberinto
+              En esta sección podrá elegir el tipo de celda, ya sea arrastrando a la cuadrícula, seleccionando o pulsando
+              las teclas: 1, 2, 3, 4, 5 respectivamente, para diseñar el laberinto.
+              <li>1 Inicio, 2 Fin: son casillas obligatorias para empezar la ejecución.</li>
+              <li>3 Obstáculo, 4 Penalización: son opcionales, mientras que los obstáculos no se pueden atravesar, las casillas penalizables añaden un 0,1 de la
+              diagonal de la cuadrícula al coste f(x).</li>
+              <li>5 Borrar: elimina las casillas indeseadas una a una.</li>
             </p>
             <p>
               <div class=" cambridgeblue p-1 rounded-3 text-black d-flex justify-content-center">
@@ -71,7 +75,7 @@
 
             <p> 
               <button  type="button" class=" btn btn-secondary ">Limpiar</button>
-              Vacía la cuadrícula
+              Vacía la cuadrícula.
             </p>
             <p>
               En "información del paso" se observan los nodos que rodean al nodo actual, los cuales, si no están 
@@ -100,14 +104,6 @@
               <span class="text-center">Inicio</span>
             </div>
           </div>
-          <div id="divprohibido" class="row cambridgeblue p-1 rounded-3 my-3">
-            <div class="col">
-              <div id="prohibido" draggable=true class="cuadradoDrag prohibido"></div>
-            </div>
-            <div class="col align-items-center d-flex">
-              <span class="text-center">Obstaculo</span>
-            </div>
-          </div>
           <div id="divfin" class="row cambridgeblue p-1 rounded-3 my-3">
             <div class="col">
               <div id="fin" draggable=true class="cuadradoDrag fin"></div>
@@ -116,12 +112,12 @@
               <span class="text-center">Fin</span>
             </div>
           </div>
-          <div id="divborrar" class="row cambridgeblue p-1 rounded-3 my-3">
+          <div id="divprohibido" class="row cambridgeblue p-1 rounded-3 my-3">
             <div class="col">
-              <div id="borrar" draggable=true class="cuadradoDrag borrar"></div>
+              <div id="prohibido" draggable=true class="cuadradoDrag prohibido"></div>
             </div>
             <div class="col align-items-center d-flex">
-              <span class="text-center">Borrar</span>
+              <span class="text-center">Obstáculo</span>
             </div>
           </div>
           <div id="divpenalizar" class="row cambridgeblue p-1 rounded-3 my-3">
@@ -132,14 +128,15 @@
               <span class="text-center">Penalización</span>
             </div>
           </div>
-          <div id="divparada" class="row cambridgeblue p-1 rounded-3 my-3">
+          <div id="divborrar" class="row cambridgeblue p-1 rounded-3 my-3">
             <div class="col">
-              <div id="borrar" draggable=true class="cuadradoDrag parada"></div>
+              <div id="borrar" draggable=true class="cuadradoDrag borrar"></div>
             </div>
             <div class="col align-items-center d-flex">
-              <span class="text-center">Paradas</span>
+              <span class="text-center">Borrar</span>
             </div>
           </div>
+  
           <div class="row cambridgeblue p-1 rounded-3 my-3">
             <div class="col d-flex justify-content-center">
               <strong>Información</strong>
