@@ -44,51 +44,32 @@
     <div id="mainRow" data-id="<%=alto%>,<%=ancho%>" class="row justify-content-center ">
       <div class="col-2 p-4 rounded-4 my-auto tarjeta paynesgray">
         <div class=" cara-trasera d-none text-white justificado scrollableDiv ">
-            <p>
-              <div class=" cambridgeblue p-1 rounded-3 text-black d-flex justify-content-center">
-                  <strong>Personalizable</strong>
-              </div>
-              En esta sección podrá elegir el tipo de celda, ya sea arrastrando a la cuadrícula, seleccionando o pulsando
-              las teclas: 1, 2, 3, 4, 5 respectivamente, para diseñar el laberinto.
+          <div class=" cambridgeblue p-1 rounded-3 text-black d-flex justify-content-center">
+            <strong>Personalizable</strong>
+          </div>
+          <p> En esta sección podrá elegir el tipo de celda, ya sea arrastrando a la cuadricula, seleccionando o pulsando las teclas: 1, 2, 3, 4, 5 respectivamente, para diseñar el laberinto. </p>
               <li>1 Inicio, 2 Fin: son casillas obligatorias para empezar la ejecución.</li>
-              <li>3 Obstáculo, 4 Penalización: son opcionales, mientras que los obstáculos no se pueden atravesar, las casillas penalizables añaden un 0,1 de la
-              diagonal de la cuadrícula al coste f(x).</li>
+              <li>3 Obstáculo, 4 Penalización: son opcionales, mientras que los obstáculos no se pueden atravesar, las casillas penalizables sí, pero tienen un coste mayor al pasar por ellas.</li>
               <li>5 Borrar: elimina las casillas indeseadas una a una.</li>
-            </p>
-            <p>
-              <div class=" cambridgeblue p-1 rounded-3 text-black d-flex justify-content-center">
-                <strong>Información</strong>
-              </div>
-              Esta sección sirve de leyenda y permite controlar la informacion representada durante la simulación 
-              al interacturar con <span class="checkbox-wrapper-2"><input type="checkbox" class="sc-gJwTLC ikxBAC " checked disabled></span>
-              
-            </p>
-            <p>Para ejecutar la <strong>simulación </strong>use los botones:</p>
-            <div class="d-flex justify-content-between">
-              <button type="button" class="btn btn-primary mr-2" style="cursor: default;">Siguiente</button>
-              <span class="btn btn-warning d-flex align-items-center " style="cursor: default;">
-                <input type="number" value="200" class="rounded infoinput " style="height:1.5em; max-width:3em;" readonly>
-                <span>Omitir</span>
-              </span>
-            </div>
-            <p>Puede modificar el tiempo (ms) entre paso y paso al omitir.</p>
-
-            <p> 
-              <button  type="button" class=" btn btn-secondary ">Limpiar</button>
-              Vacía la cuadrícula.
-            </p>
-            <p>
-              En "información del paso" se observan los nodos que rodean al nodo actual, los cuales, si no están 
-              ya, se guardan en lista abierta teniendo en cuenta la distancia:
-              <p>\(f(x,y)=g(x,y) + h(x,y)\)</p>
-              Pasando el ratón por encima de cada función, su respectivo nodo empezará a parpadear en la cuadrícula.
-            </p>
-            <p>En "nodo siguiente" se mostrará el nodo que se explorará a continuación, aquel que tenga el mínimo 
-              valor de f(x,y) y este guardado en lista abierta, es por eso que en caso de ser un nodo 
-              sucesor del nodo en el paso actual, puede no tener el mismo valor que f(x), pues puede 
-              llegarse a él con un coste menor desde un nodo ya explorado.
-            </p>
-          
+          <div class=" cambridgeblue p-1 rounded-3 text-black d-flex justify-content-center ">
+            <strong>Información</strong>
+          </div>
+          <p>Esta sección sirve de leyenda y permite controlar la informacion representada durante la simulación al interacturar con <span class="checkbox-wrapper-2" ><input type="checkbox" class="sc-gJwTLC ikxBAC ms-1" checked disabled style="margin-bottom: -0.3em;"></span></p>
+          <p>Para ejecutar la <strong>simulación </strong>use los botones:</p>
+          <div class="d-flex justify-content-center ">
+            <button type="button" class="btn btn-primary me-2 w-100" style="cursor: default;">Siguiente</button>
+            <span class="btn btn-warning d-flex align-items-center w-100" style="cursor: default;">
+              <input type="number" value="200" class="rounded infoinput " style="height:1.5em; max-width:3em;" readonly>
+              <span class="ms-2">Omitir</span>
+            </span>
+          </div>
+          <p>Puede modificar el tiempo (ms) entre paso y paso al omitir.</p>
+          <button type="button" style="cursor: default;" class=" btn btn-secondary w-100 ">Limpiar</button>
+          <p>El botón limpiar vacía la cuadrícula y reinicia los parámetros.</p>
+          <p> En "información del paso" se observan los nodos que rodean al nodo actual, los cuales, si no están guardados, se guardan en lista abierta teniendo en cuenta la distancia: </p>
+          <p class="text-center">\(f(x,y)=g(x,y) + h(x,y)\)</p>
+          <p>Pasando el ratón por encima de cada función, su respectivo nodo empezará a parpadear en la cuadrícula. </p>
+          <p>En "nodo siguiente" se mostrará el nodo que se explorará a continuación, aquel que tenga el mínimo valor de f(x,y) y este guardado en lista abierta, es por eso que en caso de ser un nodo sucesor del nodo en el paso actual, puede no tener el mismo valor que f(x), pues puede llegarse a él con un coste menor desde un nodo ya explorado. </p>
         </div>
         <div class="  paynesgray  cara-frontal">
           <div class="row cambridgeblue p-1 rounded-3 my-3">

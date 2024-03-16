@@ -52,9 +52,9 @@ $(document).keydown(function(e) {
   if (e.key === '1') {
      $("#divinicio").click()
   } else if(e.key === '2') {
-    $("#divprohibido").click()
-  } else if(e.key === '3'){
     $("#divfin").click()
+  } else if(e.key === '3'){
+    $("#divprohibido").click()
   } else if(e.key === '4'){
     $("#divpenalizar").click()
   } else if(e.key === '5'){
@@ -182,7 +182,7 @@ function ejecutarPaso(porPasos) {
 //Funciona como condicion del bucle para ver si para o continua
 function ejecutar() {
   
-  console.log(sol.length,pasoFinal,paso,terminar)
+  // console.log(sol.length,pasoFinal,paso,terminar, fallo, abierta)
   if(fallo === true) gestionarError()
   else if (actual.x !== final.x || actual.y !== final.y) gestionarPaso()
   else if (pasoFinal < sol.length - 1) {
@@ -228,8 +228,9 @@ function core() {
   if((actual.x === final.x && actual.y === final.y)) return {fallo: false, lista: generarRecorrido()} // Si el nodo actual es meta, devolver el camino solucion
  
   let sucesores = expandirSucesores(actual)  // Sino, expandir sus sucesores
-  if(sucesores.length===0) return {fallo:true}
+  if(sucesores.length===0 && abierta.length ===0) return {fallo:true}
   sucesores.forEach(ele => { // Por cada sucesor: crear un puntero a su padre
+    console.log(sucesores.length,"entro aqui?")
     let existe = abierta.findIndex(elemento => elemento.x === ele.x && elemento.y === ele.y)
     ele.total = calcularTotal(ele.x,ele.y,actual.x,actual.y) + (penalizar(ele)? 0.1*(Math.sqrt(alto **2 + ancho **2)):0) // Calcular f
     if(existe === -1) abierta.push(ele)
@@ -354,25 +355,20 @@ function mostrarElegido() {
   
   let posMin = posMinimo(abierta)
   let minimo = abierta[posMin]
+  $("#divInfo").append("Posmin",posMin)
+  $("#divInfo").append("Minimo:",minimo)
   crearParrafo(minimo,minimo.padre)
 }
 function crearParrafo(ele, actual) {
-  var nuevoParrafo 
-  if(penalizar(ele)){
-    var penalizacion=0.1* Math.sqrt(alto **2 + ancho **2).toFixed(3)
-    nuevoParrafo = $('<p>', {
-      text: `\\(      f(${ele.x},${ele.y})=g(${ele.x},${ele.y}) + h(${ele.x},${ele.y}) + p = \\sqrt{${(actual.x - ele.x)**2}+${(actual.y - ele.y)**2}} + \\sqrt{${(final.x - ele.x)**2}+${(final.y - ele.y)**2}} + 0.1 * \\sqrt{${alto**2}+${ancho**2}} = \\sqrt{${(actual.x - ele.x)**2 + (actual.y - ele.y)**2}} + \\sqrt{${(final.x - ele.x)**2 + (final.y - ele.y)**2}} + ${penalizacion}= ${(calcularTotal(ele.x,ele.y,actual.x,actual.y)+ penalizacion).toFixed(3)}  \\) `,
-      style: 'font-size:0.8em',
-      class: "rounded-1 ms-2"
-    });
-  }
-  else{
-    nuevoParrafo = $('<p>', {
-      text: `\\(      f(${ele.x},${ele.y})=g(${ele.x},${ele.y}) + h(${ele.x},${ele.y}) = \\sqrt{${(actual.x - ele.x)**2}+${(actual.y - ele.y)**2}} + \\sqrt{${(final.x - ele.x)**2}+${(final.y - ele.y)**2}} = \\sqrt{${(actual.x - ele.x)**2 + (actual.y - ele.y)**2}} + \\sqrt{${(final.x - ele.x)**2 + (final.y - ele.y)**2}} = ${(calcularTotal(ele.x,ele.y,actual.x,actual.y)+ (penalizar(ele)? 0.1*calcularImaginaria(ele.x,ele.y):0)).toFixed(3)}  \\) `,
-      style: 'font-size:0.8em',
-      class: "rounded-1 ms-2"
-    });
-  }
+  var penalizacion = penalizar(ele) ? 0.1 * Math.sqrt(alto ** 2 + ancho ** 2).toFixed(3) : 0;
+
+var nuevoParrafo = $('<p>', {
+  text: `\\(      f(${ele.x},${ele.y})=g(${ele.x},${ele.y}) + h(${ele.x},${ele.y}) ${penalizar(ele) ? '+ p' : ''} = \\sqrt{${(actual.x - ele.x)**2}+${(actual.y - ele.y)**2}} + \\sqrt{${(final.x - ele.x)**2}+${(final.y - ele.y)**2}} ${penalizar(ele) ? `+ ${penalizacion}` : ''} = \\sqrt{${(actual.x - ele.x)**2 + (actual.y - ele.y)**2}} + \\sqrt{${(final.x - ele.x)**2 + (final.y - ele.y)**2}} + ${penalizar(ele) ? penalizacion : 0}= ${(calcularTotal(ele.x,ele.y,actual.x,actual.y)+ penalizacion).toFixed(3)}  \\)`,
+  style: 'font-size:0.8em',
+  class: "rounded-1 ms-2"
+});
+
+  
 
   $('#divInfo').append(nuevoParrafo);
 
