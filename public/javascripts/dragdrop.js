@@ -250,7 +250,8 @@ function eliminarAbierta() {
   abierta.splice(posMin,1)
 }
 function posMinimo(lista) {
-  let minimo = lista[0].total
+
+  let minimo = lista[0].total //Aqui peta 
   let pos = 0
   lista.forEach((ele,indice) => {
       if(ele.total < minimo) {
@@ -352,7 +353,6 @@ function mostrarSucesores(sucesores) {
 function mostrarElegido() {
 
   $("#divInfo").append(`<p class="mb-0"><strong>Nodo elegido</strong></p>`)
-  
   let posMin = posMinimo(abierta)
   let minimo = abierta[posMin]
   $("#divInfo").append("Posmin",posMin)
@@ -382,7 +382,6 @@ var nuevoParrafo = $('<p>', {
     $(`#${ele.x}\\,${ele.y}`).removeClass("parpadear")
     $(this).removeClass("seasalt")
   })
-  
   MathJax.typeset(["#divInfo"]);
 }
 

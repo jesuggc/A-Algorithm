@@ -91,7 +91,7 @@ body::-webkit-scrollbar {
 }
 
 .parpadear {
-  animation: parpadeo 1s infinite; /* Animación de parpadeo infinito durante 2 segundos */
+  animation: parpadeo 1s infinite; 
 }
 
 .cara-frontal,
@@ -100,7 +100,6 @@ body::-webkit-scrollbar {
 }
 
 .tarjeta {
-  /* perspective: 1000px; */
   transform-style: preserve-3d;
   transition: transform 1s;
   
@@ -122,6 +121,14 @@ div.cara-trasera p {
   transform: rotateY(180deg);
 }
 
+.infoinput[type="number"]::-webkit-inner-spin-button, .infoinput[type="number"]::-webkit-outer-spin-button  {
+  -webkit-appearance: none;
+  margin: 0;
+}
+div.cara-trasera p {
+  margin-bottom: 0.5em;
+  margin-top:    0.5em;
+}
 
 /* El switch */
 .checkbox-wrapper-2 .ikxBAC {
