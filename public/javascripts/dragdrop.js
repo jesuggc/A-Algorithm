@@ -182,7 +182,6 @@ function ejecutarPaso(porPasos) {
 //Funciona como condicion del bucle para ver si para o continua
 function ejecutar() {
   
-  // console.log(sol.length,pasoFinal,paso,terminar, fallo, abierta)
   if(fallo === true) gestionarError()
   else if (actual.x !== final.x || actual.y !== final.y) gestionarPaso()
   else if (pasoFinal < sol.length - 1) {
@@ -197,7 +196,6 @@ function ejecutar() {
       createModal("Camino encontrado")
     }
   }
-  else console.log("soy yui?")
   
 }
 //Si en ejecutar se encuentra algun error
@@ -209,7 +207,7 @@ function gestionarError() {
   $("#divomitir").css("opacity",0.5)
   $("#divomitir").css("cursor","default")
 }
-//Si en ejecutar puede continuar llama a core
+//Si en ejecutar puede continuar, esta funcion se encarga de llamar a core
 function gestionarPaso() {
     paso++
     let feedback = core()
@@ -230,7 +228,6 @@ function core() {
   let sucesores = expandirSucesores(actual)  // Sino, expandir sus sucesores
   if(sucesores.length===0 && abierta.length ===0) return {fallo:true}
   sucesores.forEach(ele => { // Por cada sucesor: crear un puntero a su padre
-    console.log(sucesores.length,"entro aqui?")
     let existe = abierta.findIndex(elemento => elemento.x === ele.x && elemento.y === ele.y)
     ele.total = calcularTotal(ele.x,ele.y,actual.x,actual.y) + (penalizar(ele)? 0.1*(Math.sqrt(alto **2 + ancho **2)):0) // Calcular f
     if(existe === -1) abierta.push(ele)
@@ -355,8 +352,8 @@ function mostrarElegido() {
   $("#divInfo").append(`<p class="mb-0"><strong>Nodo elegido</strong></p>`)
   let posMin = posMinimo(abierta)
   let minimo = abierta[posMin]
-  $("#divInfo").append("Posmin",posMin)
-  $("#divInfo").append("Minimo:",minimo)
+  // $("#divInfo").append("Posmin",posMin)
+  // $("#divInfo").append("Minimo:",minimo)
   crearParrafo(minimo,minimo.padre)
 }
 function crearParrafo(ele, actual) {
